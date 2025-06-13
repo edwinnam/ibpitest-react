@@ -2,11 +2,15 @@ import { supabase } from './supabase'
 
 export const organizationService = {
   // 기관 정보 조회
-  async getOrganization(orgNumber) {
+  async getOrganization(identifier) {
+    // identifier가 이메일인지 org_number인지 판단
+    const isEmail = identifier.includes('@')
+    const field = isEmail ? 'email' : 'org_number'
+    
     const { data, error } = await supabase
       .from('organizations')
       .select('*')
-      .eq('org_number', orgNumber)
+      .eq(field, identifier)
       .single()
     
     if (error) throw error

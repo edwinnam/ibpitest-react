@@ -1,6 +1,87 @@
-/* 코드 발송대기 탭 스타일 */
-.code-waiting-tab {
-  min-height: 400px;
+/* 코드 대기 탭 스타일 */
+.code-waiting-tab .table {
+  margin-bottom: 0;
+}
+
+.code-waiting-tab .table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  padding: 8px 5px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.code-waiting-tab .table td {
+  vertical-align: middle;
+  padding: 5px;
+}
+
+/* 입력 필드 통일 */
+.code-waiting-tab .form-select,
+.code-waiting-tab .form-control {
+  font-size: 0.875rem;
+  height: 32px;
+  padding: 5px 8px;
+  width: 100%;
+  min-width: 100px;
+}
+
+/* 체크박스 스타일 */
+.code-waiting-tab .table input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* 열 너비 설정 */
+.code-waiting-tab .table th:nth-child(1),
+.code-waiting-tab .table td:nth-child(1) {
+  width: 40px;
+  text-align: center;
+}
+
+.code-waiting-tab .table th:nth-child(2),
+.code-waiting-tab .table td:nth-child(2) {
+  width: 140px; /* 검사종류 */
+}
+
+.code-waiting-tab .table th:nth-child(3),
+.code-waiting-tab .table td:nth-child(3) {
+  width: 100px; /* 이름 */
+}
+
+.code-waiting-tab .table th:nth-child(4),
+.code-waiting-tab .table td:nth-child(4) {
+  width: 120px; /* 개인고유번호 */
+}
+
+.code-waiting-tab .table th:nth-child(5),
+.code-waiting-tab .table td:nth-child(5) {
+  width: 150px; /* 소속기관1 */
+}
+
+.code-waiting-tab .table th:nth-child(6),
+.code-waiting-tab .table td:nth-child(6) {
+  width: 150px; /* 소속기관2 */
+}
+
+.code-waiting-tab .table th:nth-child(7),
+.code-waiting-tab .table td:nth-child(7) {
+  width: 180px; /* 이메일 */
+}
+
+.code-waiting-tab .table th:nth-child(8),
+.code-waiting-tab .table td:nth-child(8) {
+  width: 140px; /* 휴대폰번호 */
+}
+
+.code-waiting-tab .table th:nth-child(9),
+.code-waiting-tab .table td:nth-child(9) {
+  width: 140px; /* 규준집단 */
 }
 
 .loading-container {
@@ -13,7 +94,7 @@
 }
 
 .loading-container i {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   color: #007bff;
 }
@@ -24,34 +105,26 @@
 }
 
 .send-section {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.send-section .alert {
+  border: 1px solid #d1ecf1;
   border-radius: 8px;
-  padding: 1.5rem;
-}
-
-.send-section .alert h5 {
-  margin-bottom: 1rem;
-  color: #004085;
+  padding: 1rem;
+  background: #d1ecf1;
 }
 
 .action-buttons {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
-/* 테이블 스타일 */
-.code-waiting-tab .table th {
-  background: #f8f9fa;
-  font-weight: 600;
-  color: #495057;
-  white-space: nowrap;
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
 }
 
-.code-waiting-tab .table td {
-  vertical-align: middle;
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
 }

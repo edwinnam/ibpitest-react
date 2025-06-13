@@ -36,6 +36,33 @@
   margin: 0;
 }
 
+/* 기관 정보 요약 */
+.org-info-summary {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.org-badge,
+.codes-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #555;
+  border: 1px solid #e0e0e0;
+}
+
+.org-badge i,
+.codes-badge i {
+  font-size: 1rem;
+  color: #007bff;
+}
+
 /* 통계 카드 그리드 */
 .stats-grid {
   display: grid;

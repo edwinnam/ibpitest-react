@@ -21,6 +21,35 @@ export const auth = {
       email,
       password,
     })
+    
+    // 로그인 성공 시 기관 정보 가져오기
+    if (data?.user && !error) {
+      try {
+        // 이메일로 기관 정보 조회
+        const { data: orgData, error: orgError } = await supabase
+          .from('organizations')
+          .select('*')
+          .eq('email', email)
+          .single()
+        
+        if (!orgError && orgData) {
+          // 기관 정보를 로컬 스토리지에 저장
+          localStorage.setItem('orgNumber', orgData.org_number)
+          localStorage.setItem('orgName', orgData.name || '')
+          localStorage.setItem('codesAvailable', orgData.codes_available || '0')
+          
+          // user_metadata에 org_number 추가
+          data.user.user_metadata = {
+            ...data.user.user_metadata,
+            org_number: orgData.org_number,
+            org_name: orgData.name
+          }
+        }
+      } catch (err) {
+        console.error('기관 정보 조회 오류:', err)
+      }
+    }
+    
     return { data, error }
   },
 

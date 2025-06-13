@@ -5,6 +5,22 @@ import { testCodeService } from '../../../core/services/testCodeService'
 import { smsService } from '../../../core/services/smsService'
 import './CodeCompleteTab.css'
 
+// 규준집단 레이블 매핑
+const getStandardGroupLabel = (standardGroup) => {
+  const groupMap = {
+    'adult_general': '성인 일반',
+    'adult_20s': '성인 20대',
+    'adult_30s': '성인 30대',
+    'adult_40plus': '성인 40대이후',
+    'youth': '청소년',
+    'child': '어린이',
+    'child_3to5': '어린이 3~5세',
+    'child_6to8': '어린이 6~8세',
+    'child_9to12': '어린이 9~12세'
+  }
+  return groupMap[standardGroup] || standardGroup || '-'
+}
+
 const CodeCompleteTab = ({ onRefresh }) => {
   const { user } = useAuth()
   const [selectedItems, setSelectedItems] = useState([])
@@ -268,6 +284,7 @@ const CodeCompleteTab = ({ onRefresh }) => {
                     <th>이름</th>
                     <th>검사코드</th>
                     <th>휴대폰번호</th>
+                    <th>규준집단</th>
                     <th>진행상태</th>
                     <th>발송상태</th>
                     <th>발송일시</th>
@@ -287,6 +304,7 @@ const CodeCompleteTab = ({ onRefresh }) => {
                       <td>{item.name}</td>
                       <td className="text-monospace">{item.test_code}</td>
                       <td>{item.phone}</td>
+                      <td>{getStandardGroupLabel(item.standard_group)}</td>
                       <td>{getStatusBadge(item.status)}</td>
                       <td>{getSendStatusBadge(item.send_status)}</td>
                       <td>

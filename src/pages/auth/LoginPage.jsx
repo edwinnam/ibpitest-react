@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../modules/auth/AuthContext'
 import './LoginPage.css'
@@ -8,12 +8,22 @@ const LoginPage = ({ type = 'partner' }) => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
   
   const { signIn } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   
   const from = location.state?.from?.pathname || '/dashboard'
+  
+  // 세션 만료 메시지 처리
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message)
+      // 메시지를 표시한 후 상태를 정리
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -31,7 +41,12 @@ const LoginPage = ({ type = 'partner' }) => {
       }
 
       // 로그인 성공
-      navigate(from, { replace: true })
+      console.log('로그인 성공:', data.user?.email)
+      
+      // 지연을 두고 대시보드로 이동 (기관 정보 로드 시간 확보)
+      setTimeout(() => {
+        navigate(from, { replace: true })
+      }, 100)
     } catch (err) {
       setError('로그인 중 오류가 발생했습니다.')
     } finally {
@@ -44,6 +59,13 @@ const LoginPage = ({ type = 'partner' }) => {
       <h2 className="login-title">
         {type === 'partner' ? '검사기관 로그인' : '수검자 로그인'}
       </h2>
+      
+      {message && (
+        <div className="alert alert-info">
+          <i className="fas fa-info-circle me-2"></i>
+          {message}
+        </div>
+      )}
       
       {error && (
         <div className="alert alert-danger">

@@ -90,8 +90,8 @@ const IBPIReport = ({ customerId, testId, onDataLoad }) => {
             <tr>
               <td className="label">소속기관</td>
               <td className="value" colSpan="3">
-                {customerInfo.institution1}
-                {customerInfo.institution2 && ` - ${customerInfo.institution2}`}
+                {customerInfo.organization1}
+                {customerInfo.organization2 && ` - ${customerInfo.organization2}`}
               </td>
             </tr>
           </tbody>
@@ -109,11 +109,11 @@ const IBPIReport = ({ customerId, testId, onDataLoad }) => {
           <div className="profile-legend">
             <h3>척도 설명</h3>
             <ul>
-              <li><strong>협조성(CO)</strong>: 타인과의 협력적 태도</li>
-              <li><strong>근접성(CL)</strong>: 친밀한 관계 형성 능력</li>
-              <li><strong>순종성(OB)</strong>: 규칙과 권위에 대한 순응</li>
-              <li><strong>지도성(GU)</strong>: 리더십과 주도적 성향</li>
-              <li><strong>자기신뢰(SD)</strong>: 독립성과 자기확신</li>
+              <li><strong>협동성(CO)</strong>: 타인과의 협력적 태도</li>
+              <li><strong>친밀성(CL)</strong>: 친밀한 관계 형성 능력</li>
+              <li><strong>의무감(OB)</strong>: 규칙과 권위에 대한 순응</li>
+              <li><strong>포기(GU)</strong>: 리더십과 주도적 성향</li>
+              <li><strong>자기발전(SD)</strong>: 독립성과 자기확신</li>
             </ul>
           </div>
         </div>

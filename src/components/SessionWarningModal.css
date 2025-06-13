@@ -1,0 +1,144 @@
+/* Session Warning Modal Styles */
+.session-warning-modal {
+  text-align: center;
+  padding: 20px;
+}
+
+.warning-icon {
+  margin-bottom: 20px;
+}
+
+.warning-icon i {
+  font-size: 60px;
+  color: #ffc107;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.warning-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.warning-message {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.countdown-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 18px;
+  margin-bottom: 30px;
+  transition: all 0.3s;
+}
+
+.countdown-display.info {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.countdown-display.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.countdown-display.danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.countdown-label {
+  font-weight: 500;
+}
+
+.countdown-time {
+  font-weight: bold;
+  font-size: 24px;
+  font-family: 'Courier New', monospace;
+}
+
+.warning-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.warning-actions .btn {
+  min-width: 160px;
+}
+
+.warning-hint {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .session-warning-modal {
+    padding: 15px;
+  }
+
+  .warning-icon i {
+    font-size: 48px;
+  }
+
+  .warning-title {
+    font-size: 20px;
+  }
+
+  .warning-message {
+    font-size: 14px;
+  }
+
+  .countdown-display {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .countdown-time {
+    font-size: 20px;
+  }
+
+  .warning-actions {
+    flex-direction: column;
+  }
+
+  .warning-actions .btn {
+    width: 100%;
+  }
+}

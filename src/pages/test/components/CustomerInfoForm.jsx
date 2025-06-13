@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../../modules/auth/AuthContext'
+import { useOrganization } from '../../../modules/organization/OrganizationContext'
+import { testCodeService } from '../../../core/services/testCodeService'
 import './CustomerInfoForm.css'
 
 const CustomerInfoForm = ({ remainingCodes, onClose }) => {
   const { user } = useAuth()
+  const { getOrgNumber, getOrgName, refreshStats } = useOrganization()
   const [rows, setRows] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
 
   // 초기 행 생성
   useEffect(() => {
@@ -15,14 +19,14 @@ const CustomerInfoForm = ({ remainingCodes, onClose }) => {
       testType: '',
       name: '',
       personalId: '',
-      institution1: user?.user_metadata?.org_name || '',
+      institution1: getOrgName() || '',
       institution2: '',
       email: '',
       phone: '',
       standardGroup: ''
     }))
     setRows(initialRows)
-  }, [user])
+  }, [getOrgName])
 
   // 검사 종류별 규준집단 옵션
   const getStandardGroupOptions = (testType) => {
@@ -90,7 +94,7 @@ const CustomerInfoForm = ({ remainingCodes, onClose }) => {
       testType: '',
       name: '',
       personalId: '',
-      institution1: user?.user_metadata?.org_name || '',
+      institution1: getOrgName() || '',
       institution2: '',
       email: '',
       phone: '',
@@ -146,10 +150,40 @@ const CustomerInfoForm = ({ remainingCodes, onClose }) => {
       return
     }
 
-    // TODO: 실제 코드 생성 로직 구현
-    console.log('생성할 코드:', validRows)
-    alert(`${validRows.length}개의 검사코드가 생성되었습니다.`)
-    onClose()
+    setIsCreating(true)
+    
+    try {
+      const orgNumber = getOrgNumber()
+      if (!orgNumber) {
+        throw new Error('기관 정보를 찾을 수 없습니다.')
+      }
+
+      // 코드 생성 데이터 준비
+      const customersData = validRows.map(row => ({
+        testType: row.testType,
+        name: row.name,
+        phone: row.phone,
+        email: row.email,
+        standardGroup: row.standardGroup,
+        personalId: row.personalId,
+        institution1: row.institution1,
+        institution2: row.institution2
+      }))
+
+      // 코드 생성 서비스 호출
+      const createdCodes = await testCodeService.createTestCodes(orgNumber, customersData)
+      
+      // 통계 업데이트
+      await refreshStats()
+      
+      alert(`${createdCodes.length}개의 검사코드가 생성되었습니다.\n\n코드 발송은 [검사코드 발송대기] 탭에서 진행해주세요.`)
+      onClose()
+    } catch (error) {
+      console.error('코드 생성 오류:', error)
+      alert(`코드 생성 중 오류가 발생했습니다: ${error.message}`)
+    } finally {
+      setIsCreating(false)
+    }
   }
 
   return (
@@ -301,8 +335,16 @@ const CustomerInfoForm = ({ remainingCodes, onClose }) => {
         <button 
           className="btn btn-primary"
           onClick={handleCreateCodes}
+          disabled={isCreating}
         >
-          생성하기
+          {isCreating ? (
+            <>
+              <i className="fas fa-spinner fa-spin me-2"></i>
+              생성 중...
+            </>
+          ) : (
+            '생성하기'
+          )}
         </button>
       </div>
     </div>

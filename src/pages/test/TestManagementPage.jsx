@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../modules/auth/AuthContext'
+import { useOrganization } from '../../modules/organization/OrganizationContext'
 import { db } from '../../core/services/supabase'
 import CodeGenerationTab from './components/CodeGenerationTab'
 import CodeWaitingTab from './components/CodeWaitingTab'
@@ -9,6 +10,7 @@ import './TestManagementPage.css'
 const TestManagementPage = () => {
   const [activeTab, setActiveTab] = useState('code-generation')
   const { user } = useAuth()
+  const { getAvailableCodes, refreshStats } = useOrganization()
   const [remainingCodes, setRemainingCodes] = useState(0)
 
   useEffect(() => {
@@ -20,14 +22,18 @@ const TestManagementPage = () => {
 
     // 잔여 코드 수 로드
     loadRemainingCodes()
-  }, [user])
+  }, [user, getAvailableCodes])
 
   const loadRemainingCodes = async () => {
     if (!user) return
     
     try {
-      // 실제 구현 시 Supabase에서 데이터 가져오기
-      setRemainingCodes(44) // 임시 데이터
+      // 기관 컨텍스트에서 사용 가능한 코드 수 가져오기
+      const availableCodes = getAvailableCodes()
+      setRemainingCodes(availableCodes)
+      
+      // 통계 새로고침
+      await refreshStats()
     } catch (error) {
       console.error('잔여 코드 로드 오류:', error)
     }

@@ -6,11 +6,11 @@ const ProfileDiagram = ({ scores, size = 400, showLabels = true }) => {
   
   // 척도 순서 및 레이블
   const dimensions = [
-    { key: 'co', label: 'CO', fullName: '협조성' },
-    { key: 'cl', label: 'CL', fullName: '근접성' },
-    { key: 'ob', label: 'OB', fullName: '순종성' },
-    { key: 'gu', label: 'GU', fullName: '지도성' },
-    { key: 'sd', label: 'SD', fullName: '자기신뢰' }
+    { key: 'co', label: 'CO', fullName: '협동성' },
+    { key: 'cl', label: 'CL', fullName: '친밀성' },
+    { key: 'ob', label: 'OB', fullName: '의무감' },
+    { key: 'gu', label: 'GU', fullName: '포기' },
+    { key: 'sd', label: 'SD', fullName: '자기발전' }
   ]
 
   useEffect(() => {

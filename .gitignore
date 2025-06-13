@@ -30,3 +30,44 @@ dist-ssr
 
 # SMS proxy server logs
 sms-proxy.log
+
+# Claude settings
+.claude/
+
+# Build files
+build/
+*.build
+
+# Cache files
+.cache/
+.parcel-cache/
+
+# Lock files (optional, but usually committed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+tmp/
+temp/
+
+# OS files
+Thumbs.db
+*.swp
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Debug files
+*.log.*
+debug/
+
+# Backup files
+*.backup
+*.bak
+*~

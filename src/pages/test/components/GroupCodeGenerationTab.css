@@ -1,0 +1,198 @@
+/* 그룹 코드 생성 탭 스타일 */
+.group-code-generation-tab .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.group-code-generation-tab .card-header h5 {
+  font-weight: 600;
+  color: #333;
+}
+
+/* 엑셀 업로드 섹션 */
+.excel-upload-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* 테이블 스타일 */
+.group-input-table {
+  font-size: 0.9rem;
+}
+
+.group-input-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  padding: 8px 5px;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.group-input-table td {
+  vertical-align: middle;
+  padding: 5px;
+}
+
+/* 입력 필드 통일 */
+.group-input-table .form-select,
+.group-input-table .form-control {
+  font-size: 0.875rem;
+  height: 32px;
+  padding: 5px 8px;
+  width: 100%;
+  min-width: 100px;
+}
+
+/* 체크박스 스타일 */
+.group-input-table input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* 열 너비 설정 */
+.group-input-table th:nth-child(1),
+.group-input-table td:nth-child(1) {
+  width: 40px;
+  text-align: center;
+}
+
+.group-input-table th:nth-child(2),
+.group-input-table td:nth-child(2) {
+  width: 140px; /* 검사유형 */
+}
+
+.group-input-table th:nth-child(3),
+.group-input-table td:nth-child(3) {
+  width: 100px; /* 이름 */
+}
+
+.group-input-table th:nth-child(4),
+.group-input-table td:nth-child(4) {
+  width: 120px; /* 개인고유번호 */
+}
+
+.group-input-table th:nth-child(5),
+.group-input-table td:nth-child(5) {
+  width: 140px; /* 규준집단 */
+}
+
+.group-input-table th:nth-child(6),
+.group-input-table td:nth-child(6) {
+  width: 150px; /* 소속기관1 */
+}
+
+.group-input-table th:nth-child(7),
+.group-input-table td:nth-child(7) {
+  width: 150px; /* 소속기관2 */
+}
+
+.group-input-table th:nth-child(8),
+.group-input-table td:nth-child(8) {
+  width: 180px; /* 이메일 */
+}
+
+.group-input-table th:nth-child(9),
+.group-input-table td:nth-child(9) {
+  width: 140px; /* 휴대폰번호 */
+}
+
+/* SMS 설정 카드 */
+.sms-settings-card {
+  border: 1px solid #d1ecf1;
+  background-color: #f8fafb;
+}
+
+.sms-settings-card .card-header {
+  background-color: #d1ecf1;
+  border-bottom: 1px solid #bee5eb;
+}
+
+.sms-settings-card .card-header h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0c5460;
+}
+
+/* 필수 필드 표시 */
+.text-danger {
+  margin-left: 0.25rem;
+}
+
+/* 테이블 반응형 */
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+/* 스피너 */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+}
+
+/* 알림 메시지 */
+.alert ul {
+  padding-left: 1.5rem;
+}
+
+.alert ul li {
+  margin-bottom: 0.25rem;
+}
+
+.alert ul li:last-child {
+  margin-bottom: 0;
+}
+
+/* 버튼 그룹 */
+.d-flex.justify-content-between {
+  margin-top: 1rem;
+}
+
+/* 배지 스타일 */
+.badge.fs-6 {
+  font-size: 0.9rem !important;
+  padding: 0.5rem 1rem;
+}
+
+/* 폼 텍스트 */
+.form-text {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* 체크박스 스위치 */
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .excel-upload-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .excel-upload-section button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .table-responsive {
+    max-height: 300px;
+  }
+}

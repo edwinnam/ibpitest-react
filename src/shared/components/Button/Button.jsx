@@ -10,6 +10,9 @@ const Button = ({
   onClick,
   type = 'button',
   className = '',
+  ariaLabel,
+  ariaPressed,
+  ariaExpanded,
   ...props 
 }) => {
   const classNames = [
@@ -27,9 +30,13 @@ const Button = ({
       className={classNames}
       disabled={disabled || loading}
       onClick={onClick}
+      aria-label={ariaLabel}
+      aria-pressed={ariaPressed}
+      aria-expanded={ariaExpanded}
+      aria-busy={loading}
       {...props}
     >
-      {loading && <i className="fas fa-spinner fa-spin me-2"></i>}
+      {loading && <i className="fas fa-spinner fa-spin me-2" aria-hidden="true"></i>}
       {children}
     </button>
   )

@@ -1,0 +1,150 @@
+/* Organization Diagram Styles */
+.organization-diagram {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.diagram-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* SVG 컨테이너 */
+.organization-diagram svg {
+  display: block;
+  margin: 0 auto;
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+/* 범례 스타일 */
+.diagram-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* 점수 표시 영역 */
+.score-display {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.score-display h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.scale-name {
+  font-weight: bold;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.scale-score {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .organization-diagram {
+    padding: 20px;
+  }
+
+  .diagram-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .organization-diagram svg {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+  }
+
+  .diagram-legend {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .legend-item {
+    gap: 5px;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 16px;
+  }
+
+  .score-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+  }
+
+  .score-item {
+    padding: 8px;
+  }
+
+  .scale-score {
+    font-size: 20px;
+  }
+}
+
+/* 프린트 스타일 */
+@media print {
+  .organization-diagram {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .organization-diagram svg {
+    border: 1px solid #333;
+  }
+}

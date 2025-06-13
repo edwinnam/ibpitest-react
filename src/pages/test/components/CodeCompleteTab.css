@@ -1,139 +1,105 @@
-/* 코드 발송완료 탭 스타일 */
-.code-complete-tab {
-  min-height: 400px;
-}
-
-/* 필터 섹션 */
-.filter-section {
-  background: #f8f9fa;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.filter-row {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.filter-row .form-select,
-.filter-row .form-control {
-  flex: 1;
-  min-width: 120px;
-  max-width: 200px;
-}
-
-.filter-row .btn {
-  white-space: nowrap;
-}
-
-/* 액션 섹션 */
-.action-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.total-info {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* 테이블 스타일 */
+/* 코드 완료 탭 스타일 */
 .code-complete-tab .table {
-  font-size: 0.9rem;
+  margin-bottom: 0;
 }
 
 .code-complete-tab .table th {
   background: #f8f9fa;
   font-weight: 600;
   color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  padding: 8px 5px;
+  text-align: center;
   white-space: nowrap;
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 .code-complete-tab .table td {
   vertical-align: middle;
+  padding: 5px;
+  text-align: center;
 }
 
-/* 배지 스타일 */
-.badge {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 4px;
+/* 입력 필드 통일 */
+.code-complete-tab .form-select,
+.code-complete-tab .form-control {
+  font-size: 0.875rem;
+  height: 32px;
+  padding: 5px 8px;
+  width: 100%;
 }
 
-.bg-success {
-  background-color: #28a745;
-  color: white;
-}
-
-.bg-warning {
-  background-color: #ffc107;
-  color: #212529;
-}
-
-/* 페이지네이션 */
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-.pagination {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 0.25rem;
-}
-
-.page-item {
-  display: inline-block;
-}
-
-.page-link {
-  display: block;
-  padding: 0.375rem 0.75rem;
-  color: #007bff;
-  background: white;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: all 0.3s ease;
+/* 체크박스 스타일 */
+.code-complete-tab .table input[type="checkbox"] {
   cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  display: block;
 }
 
-.page-link:hover {
-  background: #e9ecef;
-  border-color: #dee2e6;
+/* 열 너비 설정 */
+.code-complete-tab .table th:nth-child(1),
+.code-complete-tab .table td:nth-child(1) {
+  width: 40px;
 }
 
-.page-item.active .page-link {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
+.code-complete-tab .table th:nth-child(2),
+.code-complete-tab .table td:nth-child(2) {
+  width: 120px; /* 검사종류 */
 }
 
-.page-item.disabled .page-link {
-  color: #6c757d;
-  background: #fff;
-  border-color: #dee2e6;
-  cursor: not-allowed;
-  opacity: 0.5;
+.code-complete-tab .table th:nth-child(3),
+.code-complete-tab .table td:nth-child(3) {
+  width: 100px; /* 이름 */
 }
 
-/* 로딩 상태 */
+.code-complete-tab .table th:nth-child(4),
+.code-complete-tab .table td:nth-child(4) {
+  width: 150px; /* 검사코드 */
+}
+
+.code-complete-tab .table th:nth-child(5),
+.code-complete-tab .table td:nth-child(5) {
+  width: 140px; /* 휴대폰번호 */
+}
+
+.code-complete-tab .table th:nth-child(6),
+.code-complete-tab .table td:nth-child(6) {
+  width: 140px; /* 규준집단 */
+}
+
+.code-complete-tab .table th:nth-child(7),
+.code-complete-tab .table td:nth-child(7) {
+  width: 100px; /* 진행상태 */
+}
+
+.code-complete-tab .table th:nth-child(8),
+.code-complete-tab .table td:nth-child(8) {
+  width: 100px; /* 발송상태 */
+}
+
+.code-complete-tab .table th:nth-child(9),
+.code-complete-tab .table td:nth-child(9) {
+  width: 160px; /* 발송일시 */
+}
+
+.text-monospace {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.search-filter-section {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.stats-info {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -144,28 +110,46 @@
 }
 
 .loading-container i {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   color: #007bff;
 }
 
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* 배지 스타일 */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* 페이지네이션 */
+.pagination {
+  margin-bottom: 0;
+}
+
 /* 반응형 디자인 */
-@media (max-width: 768px) {
-  .filter-row {
-    flex-direction: column;
-  }
-  
-  .filter-row .form-select,
-  .filter-row .form-control {
-    max-width: 100%;
-  }
-  
-  .action-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
+@media (max-width: 1200px) {
   .table-responsive {
     overflow-x: auto;
+  }
+  
+  .search-filter-section .row {
+    gap: 0.5rem;
   }
 }

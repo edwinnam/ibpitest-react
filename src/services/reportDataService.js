@@ -3,11 +3,11 @@ import { supabase } from '../core/services/supabase'
 // IBPI 척도 정보
 const SCALE_INFO = {
   mainScales: {
-    co: { name: '협조성', fullName: 'Cooperation' },
-    cl: { name: '근접성', fullName: 'Closeness' },
-    ob: { name: '순종성', fullName: 'Obedience' },
-    gu: { name: '지도성', fullName: 'Guidance' },
-    sd: { name: '자기신뢰', fullName: 'Self-Dependence' }
+    co: { name: '협동성', fullName: 'Cooperation' },
+    cl: { name: '친밀성', fullName: 'Closeness' },
+    ob: { name: '의무감', fullName: 'Obligation' },
+    gu: { name: '포기', fullName: 'Give-up' },
+    sd: { name: '자기발전', fullName: 'Self-Development' }
   },
   subScales: {
     co1: { name: '화합', parent: 'co' },
@@ -82,7 +82,7 @@ export const reportDataService = {
   // 고객 정보 조회
   async getCustomerInfo(customerId) {
     const { data, error } = await supabase
-      .from('customer_info')
+      .from('customers_info')
       .select(`
         id,
         name,
@@ -90,8 +90,9 @@ export const reportDataService = {
         birth_date,
         test_type,
         standard_group,
-        institution1,
-        institution2,
+        organization1,
+        organization2,
+        personal_id,
         org_number
       `)
       .eq('id', customerId)
@@ -129,12 +130,16 @@ export const reportDataService = {
     const { data, error } = await supabase
       .from('final_scores')
       .select(`
+        customer_id,
+        test_id,
+        standard_group,
         co_original, cl_original, ob_original, gu_original, sd_original,
         co1_original, co2_original, co3_original, co4_original,
         cl1_original, cl2_original, cl3_original, cl4_original,
         ob1_original, ob2_original, ob3_original, ob4_original,
         gu1_original, gu2_original, gu3_original, gu4_original,
-        sd1_original, sd2_original, sd3_original, sd4_original
+        sd1_original, sd2_original, sd3_original, sd4_original,
+        created_at
       `)
       .eq('customer_id', customerId)
       .order('created_at', { ascending: false })
@@ -184,7 +189,7 @@ export const reportDataService = {
         result.subScales[scale] = {
           originalScore,
           percentile,
-          tScore: Math.round(50 + (percentile - 50) / 5), // 간단한 T점수 변환
+          tScore: Math.round(50 + (percentile - 50) / 5), // 간단한 T점수 변횙
           ...SCALE_INFO.subScales[scale]
         }
       }
@@ -214,7 +219,7 @@ export const reportDataService = {
   // 그룹 데이터 조회
   async getGroupData(standardGroup) {
     try {
-      const [averages, deviations] = await Promise.all([
+      const [averagesResult, deviationsResult] = await Promise.all([
         supabase
           .from('group_averages')
           .select('*')
@@ -227,13 +232,45 @@ export const reportDataService = {
           .single()
       ])
 
-      return {
-        averages: averages.data,
-        deviations: deviations.data
+      if (averagesResult.error || deviationsResult.error) {
+        console.warn('그룹 데이터 조회 오류:', { 
+          avgError: averagesResult.error, 
+          devError: deviationsResult.error 
+        })
+        return null
       }
+
+      // 그룹 데이터를 UI에 맞게 변환
+      const groupData = {
+        mainScales: {},
+        subScales: {}
+      }
+
+      // 주척도 그룹 데이터
+      for (const scale of ['co', 'cl', 'ob', 'gu', 'sd']) {
+        groupData.mainScales[scale] = {
+          mean: averagesResult.data[`${scale}_mean`] || 0,
+          stdDev: deviationsResult.data[`${scale}_deviation`] || 0
+        }
+      }
+
+      // 하위척도 그룹 데이터
+      for (const scale of Object.keys(SCALE_INFO.subScales)) {
+        const meanValue = averagesResult.data[`${scale}_mean`]
+        const devValue = deviationsResult.data[`${scale}_deviation`]
+        
+        if (meanValue !== null && meanValue !== undefined) {
+          groupData.subScales[scale] = {
+            mean: meanValue,
+            stdDev: devValue || 0
+          }
+        }
+      }
+
+      return groupData
     } catch (error) {
-      console.warn('그룹 데이터 조회 실패:', error)
-      return { averages: null, deviations: null }
+      console.error('그룹 데이터 조회 실패:', error)
+      return null
     }
   },
 
@@ -298,7 +335,9 @@ export const reportDataService = {
 
   // 모의 점수 생성 (개발용)
   generateMockScores() {
-    const scores = {}
+    const scores = {
+      standard_group: 'adult'
+    }
     
     // 주척도
     for (const scale of ['co', 'cl', 'ob', 'gu', 'sd']) {
@@ -311,5 +350,68 @@ export const reportDataService = {
     }
     
     return scores
+  },
+
+  // 결과가 있는 고객 목록 조회
+  async getCustomersWithResults() {
+    try {
+      // final_scores에 데이터가 있는 고객들만 조회
+      const { data: customers, error } = await supabase
+        .from('customers_info')
+        .select(`
+          id,
+          customer_number,
+          name,
+          test_type,
+          test_date,
+          final_scores!inner(id)
+        `)
+        .eq('is_test_completed', true)
+        .order('test_date', { ascending: false })
+
+      if (error) throw error
+
+      return { customers: customers || [] }
+    } catch (error) {
+      console.error('Error fetching customers:', error)
+      return { customers: [] }
+    }
+  },
+
+  // 검사 타입 확인
+  getTestType(testType) {
+    const types = {
+      'adult': '성인용',
+      'youth': '청소년용',
+      'child': '어린이용'
+    }
+    return types[testType] || testType
+  },
+
+  // 문항 가져오기
+  async getQuestions(testType) {
+    // 실제로는 데이터베이스에서 가져와야 하지만, 
+    // 현재는 로컬 파일에서 가져오는 것으로 구현
+    try {
+      let questions = []
+      switch(testType) {
+        case 'adult':
+          const { default: adultQuestions } = await import('../data/questions/adult.js')
+          questions = adultQuestions
+          break
+        case 'youth':
+          const { default: youthQuestions } = await import('../data/questions/youth.js')
+          questions = youthQuestions
+          break
+        case 'child':
+          const { default: childQuestions } = await import('../data/questions/child.js')
+          questions = childQuestions
+          break
+      }
+      return questions
+    } catch (error) {
+      console.error('Failed to load questions:', error)
+      return []
+    }
   }
 }

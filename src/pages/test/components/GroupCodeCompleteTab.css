@@ -1,0 +1,216 @@
+/* 그룹 코드 완료 탭 스타일 */
+.group-code-complete-tab .card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* 검색 필터 섹션 */
+.search-filter-section {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.search-filter-section .row {
+  align-items: center;
+}
+
+/* 테이블 스타일 */
+.group-complete-table {
+  font-size: 0.875rem;
+}
+
+.group-complete-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  padding: 8px 5px;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.group-complete-table td {
+  vertical-align: middle;
+  padding: 5px;
+  text-align: center;
+}
+
+/* 체크박스 스타일 */
+.group-complete-table input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* 열 너비 설정 */
+.group-complete-table th:nth-child(1),
+.group-complete-table td:nth-child(1) {
+  width: 40px;
+}
+
+.group-complete-table th:nth-child(2),
+.group-complete-table td:nth-child(2) {
+  width: 100px; /* 검사종류 */
+}
+
+.group-complete-table th:nth-child(3),
+.group-complete-table td:nth-child(3) {
+  width: 80px; /* 이름 */
+}
+
+.group-complete-table th:nth-child(4),
+.group-complete-table td:nth-child(4) {
+  width: 120px; /* 검사코드 */
+}
+
+.group-complete-table th:nth-child(5),
+.group-complete-table td:nth-child(5) {
+  width: 150px; /* 이메일 */
+}
+
+.group-complete-table th:nth-child(6),
+.group-complete-table td:nth-child(6) {
+  width: 110px; /* 휴대폰번호 */
+}
+
+.group-complete-table th:nth-child(7),
+.group-complete-table td:nth-child(7) {
+  width: 70px; /* 상태 */
+}
+
+.group-complete-table th:nth-child(8),
+.group-complete-table td:nth-child(8) {
+  width: 90px; /* 발송일 */
+}
+
+.group-complete-table th:nth-child(9),
+.group-complete-table td:nth-child(9) {
+  width: 90px; /* 최종접속일 */
+}
+
+.group-complete-table th:nth-child(10),
+.group-complete-table td:nth-child(10) {
+  width: 80px; /* SMS 발송 */
+}
+
+.group-complete-table th:nth-child(11),
+.group-complete-table td:nth-child(11) {
+  width: 80px; /* 발송현황 */
+}
+
+/* 텍스트 스타일 */
+.text-monospace {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* 통계 정보 */
+.stats-info {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* 로딩 컨테이너 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #666;
+}
+
+.loading-container i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+/* 테이블 반응형 */
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+/* 배지 스타일 */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* 페이지네이션 */
+.pagination {
+  margin-bottom: 0;
+}
+
+.page-link {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* 스피너 */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+}
+
+/* 메시지 박스 애니메이션 */
+.text-success {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 버튼 그룹 */
+.btn-group-action {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .search-filter-section .row {
+    gap: 0.5rem;
+  }
+  
+  .search-filter-section .col-md-2,
+  .search-filter-section .col-md-1,
+  .search-filter-section .col-md-3 {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}

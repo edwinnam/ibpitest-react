@@ -1,0 +1,188 @@
+/* 그룹 코드 대기 탭 스타일 */
+.group-code-waiting-tab .card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* 테이블 스타일 */
+.group-waiting-table {
+  font-size: 0.9rem;
+}
+
+.group-waiting-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  padding: 8px 5px;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.group-waiting-table td {
+  vertical-align: middle;
+  padding: 5px;
+  text-align: center;
+}
+
+/* 입력 필드 통일 */
+.group-waiting-table .form-select,
+.group-waiting-table .form-control {
+  font-size: 0.875rem;
+  height: 32px;
+  padding: 5px 8px;
+  width: 100%;
+}
+
+/* 체크박스 스타일 */
+.group-waiting-table input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* 열 너비 설정 */
+.group-waiting-table th:nth-child(1),
+.group-waiting-table td:nth-child(1) {
+  width: 40px;
+}
+
+.group-waiting-table th:nth-child(2),
+.group-waiting-table td:nth-child(2) {
+  width: 120px; /* 검사종류 */
+}
+
+.group-waiting-table th:nth-child(3),
+.group-waiting-table td:nth-child(3) {
+  width: 90px; /* 이름 */
+}
+
+.group-waiting-table th:nth-child(4),
+.group-waiting-table td:nth-child(4) {
+  width: 110px; /* 개인고유번호 */
+}
+
+.group-waiting-table th:nth-child(5),
+.group-waiting-table td:nth-child(5) {
+  width: 140px; /* 소속기관1 */
+}
+
+.group-waiting-table th:nth-child(6),
+.group-waiting-table td:nth-child(6) {
+  width: 140px; /* 소속기관2 */
+}
+
+.group-waiting-table th:nth-child(7),
+.group-waiting-table td:nth-child(7) {
+  width: 160px; /* 이메일 */
+}
+
+.group-waiting-table th:nth-child(8),
+.group-waiting-table td:nth-child(8) {
+  width: 120px; /* 휴대폰번호 */
+}
+
+.group-waiting-table th:nth-child(9),
+.group-waiting-table td:nth-child(9) {
+  width: 120px; /* 규준집단 */
+}
+
+.group-waiting-table th:nth-child(10),
+.group-waiting-table td:nth-child(10) {
+  width: 80px; /* SMS 상태 */
+}
+
+/* 로딩 컨테이너 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #666;
+}
+
+.loading-container i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+/* 발송 섹션 */
+.send-section {
+  border: 1px solid #d1ecf1;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #d1ecf1;
+}
+
+/* SMS 설정 카드 */
+.bulk-sms-settings {
+  border: 1px solid #e3f2fd;
+  background-color: #f8fafb;
+}
+
+.bulk-sms-settings .card-header {
+  background-color: #e3f2fd;
+  border-bottom: 1px solid #bbdefb;
+}
+
+.bulk-sms-settings .card-header h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1565c0;
+}
+
+/* 액션 버튼 */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* 테이블 반응형 */
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+/* 배지 스타일 */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* 스피너 */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .bulk-sms-settings .row {
+    gap: 0.5rem;
+  }
+}

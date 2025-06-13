@@ -1,0 +1,10 @@
+/* CustomerEditModal styles are using Bootstrap classes */
+/* Additional custom styles can be added here if needed */
+
+.modal.show {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+  z-index: 1050;
+}

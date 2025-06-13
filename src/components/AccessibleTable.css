@@ -1,0 +1,150 @@
+/* Accessible Table Styles */
+.accessible-table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.accessible-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.accessible-table caption {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  color: #333;
+}
+
+.accessible-table th {
+  background-color: #f8f9fa;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #dee2e6;
+  white-space: nowrap;
+}
+
+.accessible-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.accessible-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.accessible-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.accessible-table tbody tr.clickable {
+  cursor: pointer;
+}
+
+.accessible-table tbody tr.selected {
+  background-color: #e3f2fd;
+}
+
+.accessible-table tbody tr:focus {
+  outline: 3px solid #007bff;
+  outline-offset: -3px;
+}
+
+/* Sort Button */
+.sort-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  text-align: left;
+}
+
+.sort-button:hover {
+  color: #007bff;
+}
+
+.sort-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sort-indicator {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* Empty State */
+.empty-message {
+  text-align: center;
+  padding: 40px !important;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .accessible-table {
+    font-size: 14px;
+  }
+
+  .accessible-table th,
+  .accessible-table td {
+    padding: 8px 12px;
+  }
+
+  /* 모바일에서 테이블을 카드 형태로 변환 */
+  .accessible-table thead {
+    display: none;
+  }
+
+  .accessible-table tbody tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .accessible-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border: none;
+  }
+
+  .accessible-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 10px;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .accessible-table tbody tr:focus {
+    outline-width: 4px;
+  }
+
+  .sort-button:focus {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .accessible-table tbody tr {
+    transition: none;
+  }
+}

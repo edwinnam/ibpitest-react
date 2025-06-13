@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from '../modules/auth/AuthContext'
+import { OrganizationProvider } from '../modules/organization/OrganizationContext'
 import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
 
@@ -14,15 +15,19 @@ import UpdatePasswordPage from '../pages/auth/UpdatePasswordPage'
 import DashboardPage from '../pages/dashboard/DashboardPage'
 import TestManagementPage from '../pages/test/TestManagementPage'
 import TestScoringPage from '../pages/scoring/TestScoringPage'
+import ManualScoringPage from '../pages/scoring/ManualScoringPage'
 import TestResultsPage from '../pages/results/TestResultsPage'
 import GroupTestPage from '../pages/test/GroupTestPage'
 import MyPage from '../pages/user/MyPage'
 import CustomerInfoPage from '../pages/user/CustomerInfoPage'
 import BizPartnerInfoPage from '../pages/organization/BizPartnerInfoPage'
 import DataManagementPage from '../pages/admin/DataManagementPage'
+import CodeGenerationPage from '../pages/admin/CodeGenerationPage'
 import NoticePage from '../pages/notice/NoticePage'
 import ReportViewPage from '../pages/reports/ReportViewPage'
 import ReportDemo from '../pages/reports/ReportDemo'
+import UserGuidePage from '../pages/guide/UserGuidePage'
+import OrganizationDiagramPage from '../pages/diagram/OrganizationDiagramPage'
 
 // 고객용 페이지
 import CustomerLoginPage from '../pages/customer/CustomerLoginPage'
@@ -33,7 +38,8 @@ import TestCompletePage from '../pages/customer/TestCompletePage'
 const AppRouter = () => {
   return (
     <AuthProvider>
-      <Routes>
+      <OrganizationProvider>
+        <Routes>
         {/* 공개 라우트 (로그인하지 않은 사용자) */}
         <Route element={<PublicRoute />}>
           <Route element={<AuthLayout />}>
@@ -51,15 +57,20 @@ const AppRouter = () => {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/test-management" element={<TestManagementPage />} />
             <Route path="/test-scoring" element={<TestScoringPage />} />
+            <Route path="/manual-scoring" element={<ManualScoringPage />} />
             <Route path="/test-results" element={<TestResultsPage />} />
             <Route path="/group-test" element={<GroupTestPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/customer-info" element={<CustomerInfoPage />} />
             <Route path="/biz-partner-info" element={<BizPartnerInfoPage />} />
             <Route path="/data-management" element={<DataManagementPage />} />
+            <Route path="/admin/code-generation" element={<CodeGenerationPage />} />
             <Route path="/notice" element={<NoticePage />} />
+            <Route path="/user-guide" element={<UserGuidePage />} />
             <Route path="/reports/:customerId/:testId" element={<ReportViewPage />} />
             <Route path="/reports/demo" element={<ReportDemo />} />
+            <Route path="/diagram" element={<OrganizationDiagramPage />} />
+            <Route path="/diagram/:customerId/:testId" element={<OrganizationDiagramPage />} />
           </Route>
         </Route>
 
@@ -76,7 +87,8 @@ const AppRouter = () => {
         
         {/* 404 페이지 */}
         <Route path="*" element={<div>404 - Page Not Found</div>} />
-      </Routes>
+        </Routes>
+      </OrganizationProvider>
     </AuthProvider>
   )
 }

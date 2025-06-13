@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../modules/auth/AuthContext'
 import { useSupabaseQuery } from '../../core/hooks/useSupabaseQuery'
 import { supabase } from '../../core/services/supabase'
+import CustomerEditModal from '../../components/modals/CustomerEditModal'
+import * as XLSX from 'xlsx'
 import './TestResultsPage.css'
 
 const TestResultsPage = () => {
@@ -10,6 +12,9 @@ const TestResultsPage = () => {
   const navigate = useNavigate()
   const [selectedResult, setSelectedResult] = useState(null)
   const [showDetailModal, setShowDetailModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editingCustomer, setEditingCustomer] = useState(null)
+  const [selectedResults, setSelectedResults] = useState([])
   const [filters, setFilters] = useState({
     testType: '',
     dateFrom: '',
@@ -27,30 +32,33 @@ const TestResultsPage = () => {
         .from('test_results')
         .select(`
           *,
-          customer_info!inner(
+          customers_info!inner(
+            id,
             name,
             gender,
             birth_date,
-            institution1,
-            institution2,
-            test_codes!inner(test_code, test_type)
+            organization1,
+            organization2,
+            personal_id,
+            test_type,
+            test_date
           )
         `)
         .eq('org_number', orgNumber)
-        .order('scored_at', { ascending: false })
+        .order('created_at', { ascending: false })
 
       // 필터 적용
       if (filters.testType) {
-        query = query.eq('customer_info.test_codes.test_type', filters.testType)
+        query = query.eq('customers_info.test_type', filters.testType)
       }
       if (filters.dateFrom) {
-        query = query.gte('scored_at', filters.dateFrom)
+        query = query.gte('created_at', filters.dateFrom)
       }
       if (filters.dateTo) {
-        query = query.lte('scored_at', filters.dateTo + 'T23:59:59')
+        query = query.lte('created_at', filters.dateTo + 'T23:59:59')
       }
       if (filters.searchTerm) {
-        query = query.or(`customer_info.name.ilike.%${filters.searchTerm}%,customer_info.test_codes.test_code.ilike.%${filters.searchTerm}%`)
+        query = query.or(`customers_info.name.ilike.%${filters.searchTerm}%,customer_number.ilike.%${filters.searchTerm}%`)
       }
 
       const { data, error } = await query
@@ -93,9 +101,131 @@ const TestResultsPage = () => {
     navigate(`/reports/${result.customer_id}/${result.id}`)
   }
 
-  const handleDownloadExcel = () => {
-    // 엑셀 다운로드 로직
-    alert('엑셀 다운로드 기능은 준비 중입니다.')
+  const handleDownloadExcel = (downloadAll = false) => {
+    try {
+      // 다운로드할 데이터 결정
+      const dataToExport = downloadAll ? testResults : 
+        testResults.filter(r => selectedResults.includes(r.id))
+
+      if (dataToExport.length === 0) {
+        alert('다운로드할 데이터가 없습니다.')
+        return
+      }
+
+      // 엑셀 데이터 준비
+      const excelData = dataToExport.map((result, index) => ({
+        '번호': index + 1,
+        '이름': result.customers_info.name,
+        '성별': result.customers_info.gender,
+        '나이': calculateAge(result.customers_info.birth_date),
+        '생년월일': formatDate(result.customers_info.birth_date),
+        '검사일': formatDate(result.customers_info.test_date),
+        '검사종류': result.customers_info.test_type,
+        '소속기관 1': result.customers_info.organization1 || '',
+        '소속기관 2': result.customers_info.organization2 || '',
+        '개인고유번호': result.customers_info.personal_id || '',
+        '총점': result.total_score || 0,
+        'CL 점수': result.cl_score || 0,
+        'CO 점수': result.co_score || 0,
+        'OB 점수': result.ob_score || 0,
+        'GU 점수': result.gu_score || 0,
+        'SD 점수': result.sd_score || 0,
+        '타당도': result.validity_score || 0
+      }))
+
+      // 워크시트 생성
+      const ws = XLSX.utils.json_to_sheet(excelData)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, '검사결과')
+
+      // 파일 다운로드
+      const fileName = `IBPI_검사결과_${new Date().toISOString().split('T')[0]}.xlsx`
+      XLSX.writeFile(wb, fileName)
+
+      alert(`${dataToExport.length}건의 데이터가 다운로드되었습니다.`)
+    } catch (error) {
+      console.error('엑셀 다운로드 오류:', error)
+      alert('엑셀 다운로드 중 오류가 발생했습니다.')
+    }
+  }
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedResults(testResults.map(r => r.id))
+    } else {
+      setSelectedResults([])
+    }
+  }
+
+  const handleSelectResult = (resultId) => {
+    setSelectedResults(prev => {
+      if (prev.includes(resultId)) {
+        return prev.filter(id => id !== resultId)
+      } else {
+        return [...prev, resultId]
+      }
+    })
+  }
+
+  const handleEditCustomer = (customerInfo) => {
+    setEditingCustomer(customerInfo)
+    setShowEditModal(true)
+  }
+
+  const handleUpdateCustomer = () => {
+    // 데이터 새로고침
+    refetch()
+  }
+
+  const handleDeleteSelected = async () => {
+    if (selectedResults.length === 0) {
+      alert('삭제할 항목을 선택하세요.')
+      return
+    }
+
+    if (!confirm(`선택한 ${selectedResults.length}건의 결과를 삭제하시겠습니까?`)) {
+      return
+    }
+
+    try {
+      // test_results 테이블에서 삭제
+      const { error } = await supabase
+        .from('test_results')
+        .delete()
+        .in('id', selectedResults)
+
+      if (error) throw error
+
+      alert('선택한 항목이 삭제되었습니다.')
+      setSelectedResults([])
+      refetch()
+    } catch (error) {
+      console.error('삭제 오류:', error)
+      alert('삭제 중 오류가 발생했습니다.')
+    }
+  }
+
+  const handleAnalysisStatusChange = async (status) => {
+    if (selectedResults.length === 0) {
+      alert('변경할 항목을 선택하세요.')
+      return
+    }
+
+    try {
+      const { error } = await supabase
+        .from('test_results')
+        .update({ is_analyzed: status })
+        .in('id', selectedResults)
+
+      if (error) throw error
+
+      alert(`선택한 항목이 ${status ? '분석완료' : '분석미완료'}로 변경되었습니다.`)
+      setSelectedResults([])
+      refetch()
+    } catch (error) {
+      console.error('상태 변경 오류:', error)
+      alert('상태 변경 중 오류가 발생했습니다.')
+    }
   }
 
   const formatDate = (dateString) => {
@@ -140,6 +270,62 @@ const TestResultsPage = () => {
       <div className="page-header">
         <h1>검사 결과 조회</h1>
         <p className="page-subtitle">채점이 완료된 검사 결과를 조회하고 관리합니다</p>
+      </div>
+
+      {/* 검사 종류 탭 */}
+      <ul className="nav nav-tabs mb-3">
+        <li className="nav-item">
+          <a 
+            className={`nav-link ${filters.testType === '' || filters.testType === 'IBPI 성인용' ? 'active' : ''}`}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              handleFilterChange('testType', 'IBPI 성인용')
+            }}
+          >
+            IBPI 성인용
+          </a>
+        </li>
+        <li className="nav-item">
+          <a 
+            className={`nav-link ${filters.testType === 'IBPI 청소년용' ? 'active' : ''}`}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              handleFilterChange('testType', 'IBPI 청소년용')
+            }}
+          >
+            IBPI 청소년용
+          </a>
+        </li>
+        <li className="nav-item">
+          <a 
+            className={`nav-link ${filters.testType === 'IBPI 어린이용' ? 'active' : ''}`}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              handleFilterChange('testType', 'IBPI 어린이용')
+            }}
+          >
+            IBPI 어린이용
+          </a>
+        </li>
+      </ul>
+
+      {/* 분석 상태 탭 */}
+      <div className="analysis-tabs mb-3">
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <a className="nav-link active" href="#">
+              분석전 (<span>{testResults.filter(r => !r.is_analyzed).length}</span>)
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">
+              분석완료 (<span>{testResults.filter(r => r.is_analyzed).length}</span>)
+            </a>
+          </li>
+        </ul>
       </div>
 
       {/* 필터 섹션 */}
@@ -197,6 +383,87 @@ const TestResultsPage = () => {
               <i className="fas fa-redo me-2"></i>초기화
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* 액션 버튼 */}
+      <div className="action-buttons mb-3">
+        <button 
+          className="btn btn-light me-2" 
+          disabled={selectedResults.length === 0}
+          onClick={handleDeleteSelected}
+        >
+          삭제
+        </button>
+        <button 
+          className="btn btn-light me-2" 
+          disabled={selectedResults.length === 0}
+          onClick={() => alert('출력 기능은 준비 중입니다.')}
+        >
+          출력
+        </button>
+        <button 
+          className="btn btn-light me-2" 
+          disabled={selectedResults.length === 0}
+          onClick={() => alert('저장 기능은 준비 중입니다.')}
+        >
+          저장
+        </button>
+        <div className="dropdown d-inline-block me-2">
+          <button 
+            className="btn btn-light dropdown-toggle" 
+            type="button"
+            data-bs-toggle="dropdown"
+            disabled={selectedResults.length === 0}
+          >
+            해석보고서
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <a className="dropdown-item" href="#" onClick={(e) => {
+                e.preventDefault()
+                handleAnalysisStatusChange(true)
+              }}>
+                분석 완료로 표시
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#" onClick={(e) => {
+                e.preventDefault()
+                handleAnalysisStatusChange(false)
+              }}>
+                분석 미완료로 표시
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="dropdown d-inline-block">
+          <button 
+            className="btn btn-light dropdown-toggle" 
+            type="button"
+            data-bs-toggle="dropdown"
+            disabled={selectedResults.length === 0}
+          >
+            Excel
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <a className="dropdown-item" href="#" onClick={(e) => {
+                e.preventDefault()
+                handleDownloadExcel(false)
+              }}>
+                선택 데이터 다운로드
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#" onClick={(e) => {
+                e.preventDefault()
+                handleDownloadExcel(true)
+              }}>
+                전체 데이터 다운로드
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -265,67 +532,59 @@ const TestResultsPage = () => {
               <table className="table table-hover">
                 <thead>
                   <tr>
-                    <th>채점일</th>
-                    <th>검사종류</th>
+                    <th>
+                      <input 
+                        type="checkbox" 
+                        checked={testResults.length > 0 && testResults.every(r => selectedResults.includes(r.id))}
+                        onChange={handleSelectAll}
+                      />
+                    </th>
+                    <th>번호</th>
                     <th>이름</th>
-                    <th>성별/나이</th>
-                    <th>검사코드</th>
-                    <th>소속기관</th>
-                    <th>총점</th>
-                    <th>수준</th>
-                    <th>작업</th>
+                    <th>성별</th>
+                    <th>나이</th>
+                    <th>생년월일</th>
+                    <th>검사일</th>
+                    <th>검사기관</th>
+                    <th>소속기관 1</th>
+                    <th>소속기관 2</th>
+                    <th>개인고유번호</th>
+                    <th>PDF 출력</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {testResults.map(result => {
-                    const scoreLevel = getScoreLevel(result.scores?.total || 0)
+                  {testResults.map((result, index) => {
                     return (
-                      <tr key={result.id}>
-                        <td>{formatDate(result.scored_at)}</td>
-                        <td>
-                          <span className="badge bg-primary">
-                            {result.customer_info.test_codes.test_type}
-                          </span>
+                      <tr 
+                        key={result.id}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => handleEditCustomer(result.customers_info)}
+                      >
+                        <td onClick={(e) => e.stopPropagation()}>
+                          <input 
+                            type="checkbox" 
+                            checked={selectedResults.includes(result.id)}
+                            onChange={() => handleSelectResult(result.id)}
+                          />
                         </td>
-                        <td>{result.customer_info.name}</td>
-                        <td>
-                          {result.customer_info.gender === 'male' ? '남' : '여'} / 
-                          {calculateAge(result.customer_info.birth_date)}세
-                        </td>
-                        <td className="text-monospace">
-                          {result.customer_info.test_codes.test_code}
-                        </td>
-                        <td>{result.customer_info.institution1}</td>
-                        <td className="fw-bold">{result.scores?.total || 0}</td>
-                        <td>
-                          <span className={`badge bg-${scoreLevel.color}`}>
-                            {scoreLevel.text}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="btn-group btn-group-sm">
-                            <button
-                              className="btn btn-outline-primary"
-                              onClick={() => handleViewDetail(result)}
-                              title="상세보기"
-                            >
-                              <i className="fas fa-eye"></i>
-                            </button>
-                            <button
-                              className="btn btn-outline-info"
-                              onClick={() => handleViewReport(result)}
-                              title="보고서"
-                            >
-                              <i className="fas fa-file-alt"></i>
-                            </button>
-                            <button
-                              className="btn btn-outline-success"
-                              onClick={() => handlePrintResult(result)}
-                              title="인쇄"
-                            >
-                              <i className="fas fa-print"></i>
-                            </button>
-                          </div>
+                        <td>{index + 1}</td>
+                        <td>{result.customers_info.name}</td>
+                        <td>{result.customers_info.gender === '남' ? '남' : '여'}</td>
+                        <td>{calculateAge(result.customers_info.birth_date)}</td>
+                        <td>{formatDate(result.customers_info.birth_date)}</td>
+                        <td>{formatDate(result.customers_info.test_date)}</td>
+                        <td>{result.customers_info.test_type}</td>
+                        <td>{result.customers_info.organization1 || '-'}</td>
+                        <td>{result.customers_info.organization2 || '-'}</td>
+                        <td>{result.customers_info.personal_id || '-'}</td>
+                        <td onClick={(e) => e.stopPropagation()}>
+                          <button
+                            className="btn btn-sm btn-outline-primary"
+                            onClick={() => handleViewReport(result)}
+                            title="PDF 보기"
+                          >
+                            <i className="fas fa-file-pdf"></i>
+                          </button>
                         </td>
                       </tr>
                     )
@@ -357,18 +616,18 @@ const TestResultsPage = () => {
                     <tbody>
                       <tr>
                         <th width="30%">이름</th>
-                        <td>{selectedResult.customer_info.name}</td>
+                        <td>{selectedResult.customers_info.name}</td>
                         <th width="30%">검사일</th>
-                        <td>{formatDate(selectedResult.scored_at)}</td>
+                        <td>{formatDate(selectedResult.customers_info.test_date)}</td>
                       </tr>
                       <tr>
                         <th>성별/나이</th>
                         <td>
-                          {selectedResult.customer_info.gender === 'male' ? '남' : '여'} / 
-                          {calculateAge(selectedResult.customer_info.birth_date)}세
+                          {selectedResult.customers_info.gender === '남' ? '남' : '여'} / 
+                          {calculateAge(selectedResult.customers_info.birth_date)}세
                         </td>
                         <th>검사종류</th>
-                        <td>{selectedResult.customer_info.test_codes.test_type}</td>
+                        <td>{selectedResult.test_type}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -379,15 +638,27 @@ const TestResultsPage = () => {
                       <tr>
                         <th width="30%">총점</th>
                         <td colSpan="3" className="fw-bold text-primary">
-                          {selectedResult.scores?.total || 0}점
+                          {selectedResult.total_score || 0}점
                         </td>
                       </tr>
-                      {selectedResult.scores?.subscales && Object.entries(selectedResult.scores.subscales).map(([key, value]) => (
-                        <tr key={key}>
-                          <th>{key}</th>
-                          <td>{value}점</td>
-                        </tr>
-                      ))}
+                      <tr>
+                        <th>CL (근접성)</th>
+                        <td>{selectedResult.cl_score || 0}점</td>
+                        <th>CO (협조성)</th>
+                        <td>{selectedResult.co_score || 0}점</td>
+                      </tr>
+                      <tr>
+                        <th>OB (순종성)</th>
+                        <td>{selectedResult.ob_score || 0}점</td>
+                        <th>GU (지도성)</th>
+                        <td>{selectedResult.gu_score || 0}점</td>
+                      </tr>
+                      <tr>
+                        <th>SD (자기신뢰)</th>
+                        <td>{selectedResult.sd_score || 0}점</td>
+                        <th>타당도</th>
+                        <td>{selectedResult.validity_score || 0}점</td>
+                      </tr>
                     </tbody>
                   </table>
 
@@ -403,6 +674,16 @@ const TestResultsPage = () => {
                 </div>
               </div>
               <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-info"
+                  onClick={() => {
+                    navigate(`/diagram/${selectedResult.customer_id}/${selectedResult.id}`)
+                    setShowDetailModal(false)
+                  }}
+                >
+                  <i className="fas fa-sitemap me-2"></i>조직도
+                </button>
                 <button
                   type="button"
                   className="btn btn-success"
@@ -422,6 +703,17 @@ const TestResultsPage = () => {
           </div>
         </div>
       )}
+
+      {/* 고객 정보 수정 모달 */}
+      <CustomerEditModal
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false)
+          setEditingCustomer(null)
+        }}
+        customerData={editingCustomer}
+        onUpdate={handleUpdateCustomer}
+      />
 
       <div className="page-footer mt-5">
         <a href="/test-scoring" className="btn btn-outline-primary">

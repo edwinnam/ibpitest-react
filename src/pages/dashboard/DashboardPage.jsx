@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../modules/auth/AuthContext'
+import { useOrganization } from '../../modules/organization/OrganizationContext'
 import { useSupabaseQuery } from '../../core/hooks/useSupabaseQuery'
-import { organizationService } from '../../core/services/organizationService'
 import { supabase } from '../../core/services/supabase'
+import DebugInfo from '../../components/debug/DebugInfo'
 import './DashboardPage.css'
 
 const DashboardPage = () => {
   const { user } = useAuth()
+  const { organization, stats, loading: orgLoading, getOrgNumber, getOrgName } = useOrganization()
   const navigate = useNavigate()
   const [recentActivities, setRecentActivities] = useState([])
   
   // 기관 정보 가져오기
-  const orgNumber = user?.user_metadata?.org_number || sessionStorage.getItem('orgNumber')
-
-  // 통계 데이터 쿼리
-  const { data: stats, isLoading: statsLoading } = useSupabaseQuery(
-    ['organizationStats', orgNumber],
-    () => organizationService.getOrganizationStats(orgNumber),
-    { enabled: !!orgNumber }
-  )
+  const orgNumber = getOrgNumber()
+  const orgName = getOrgName()
 
   // 최근 활동 쿼리
   const { data: recentCodes, isLoading: activitiesLoading } = useSupabaseQuery(
@@ -117,7 +113,7 @@ const DashboardPage = () => {
     }
   }
 
-  if (statsLoading || activitiesLoading) {
+  if (orgLoading || activitiesLoading) {
     return (
       <div className="dashboard-loading">
         <i className="fas fa-spinner fa-spin"></i>
@@ -137,7 +133,19 @@ const DashboardPage = () => {
     <div className="dashboard-page">
       <div className="page-header">
         <h1>대시보드</h1>
-        <p className="page-subtitle">IBPI 검사 시스템 현황을 한눈에 확인하세요</p>
+        <p className="page-subtitle">
+          {orgName ? `${orgName} - ` : ''}IBPI 검사 시스템 현황을 한눈에 확인하세요
+        </p>
+        {organization && (
+          <div className="org-info-summary">
+            <span className="org-badge">
+              <i className="fas fa-building"></i> {orgName}
+            </span>
+            <span className="codes-badge">
+              <i className="fas fa-ticket-alt"></i> 보유 코드: {dashboardStats.availableCodes}개
+            </span>
+          </div>
+        )}
       </div>
 
       {/* 통계 카드 섹션 */}
@@ -286,6 +294,9 @@ const DashboardPage = () => {
           </button>
         </div>
       )}
+      
+      {/* 디버그 정보 (개발 환경에서만) */}
+      <DebugInfo />
     </div>
   )
 }
