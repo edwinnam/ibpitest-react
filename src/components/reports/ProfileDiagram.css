@@ -1,0 +1,36 @@
+.profile-diagram {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.diagram-scale {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  font-size: 11px;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.diagram-scale span {
+  position: relative;
+}
+
+.diagram-scale span:not(:last-child)::after {
+  content: '-';
+  position: absolute;
+  right: -10px;
+  color: #ccc;
+}

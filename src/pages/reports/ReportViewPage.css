@@ -1,0 +1,169 @@
+.report-view-page {
+  min-height: 100vh;
+  background-color: #f5f6fa;
+}
+
+/* 툴바 */
+.report-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.report-toolbar .btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #5a67d8;
+}
+
+.btn-success {
+  background: #28a745;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #218838;
+}
+
+.btn-info {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-info:hover {
+  background: #138496;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 보고서 컨테이너 */
+.report-container {
+  max-width: 850px;
+  margin: 40px auto;
+  background: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 인쇄 스타일 */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .report-view-page {
+    background: white;
+  }
+
+  .report-container {
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    max-width: none;
+  }
+
+  .ibpi-report {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 페이지 설정 */
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  /* 페이지 나누기 */
+  .report-section {
+    page-break-inside: avoid;
+  }
+
+  .report-header {
+    page-break-after: avoid;
+  }
+
+  /* 색상 보정 */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* 인쇄 중 상태 */
+.report-view-page.printing {
+  .report-toolbar {
+    display: none;
+  }
+
+  .report-container {
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .report-toolbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .toolbar-left,
+  .toolbar-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .report-container {
+    margin: 20px 10px;
+    border-radius: 0;
+  }
+
+  .report-toolbar .btn {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}

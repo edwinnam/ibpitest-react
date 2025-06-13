@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(./node_modules/.bin/vite)",
+      "Bash(./node_modules/.bin/vite --port 3000)",
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(vite:*)",
+      "Bash(ss:*)",
+      "Bash(npx vite:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)"
+    ],
+    "deny": []
+  }
+}

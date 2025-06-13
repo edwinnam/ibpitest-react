@@ -1,0 +1,28 @@
+/* 코드 생성 탭 스타일 */
+.code-generation-tab .table {
+  margin-bottom: 0;
+}
+
+.code-generation-tab .table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  padding: 1rem;
+}
+
+.code-generation-tab .table td {
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.remaining-codes {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #007bff;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}

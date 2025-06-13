@@ -1,0 +1,61 @@
+.test-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.test-navigation .btn {
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.test-navigation .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.test-navigation .btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.test-navigation .btn-secondary:hover:not(:disabled) {
+  background: #5a6268;
+}
+
+.test-navigation .btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.test-navigation .btn-primary:hover:not(:disabled) {
+  background: #5a67d8;
+}
+
+.test-navigation .btn-success {
+  background: #28a745;
+  color: white;
+}
+
+.test-navigation .btn-success:hover:not(:disabled) {
+  background: #218838;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .test-navigation .btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    min-width: 100px;
+  }
+}

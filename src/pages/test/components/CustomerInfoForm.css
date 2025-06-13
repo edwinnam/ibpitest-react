@@ -1,0 +1,93 @@
+/* 고객 정보 입력 폼 스타일 */
+.customer-info-form {
+  max-width: 100%;
+}
+
+.info-list {
+  list-style: none;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.info-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.info-list li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #007bff;
+}
+
+.form-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.summary-info {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.required {
+  color: #dc3545;
+  margin-left: 0.25rem;
+}
+
+.form-select-sm,
+.form-control-sm {
+  font-size: 0.875rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* 테이블 스타일 */
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.customer-info-form .table {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.customer-info-form .table th {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.customer-info-form .table td {
+  vertical-align: middle;
+  padding: 0.5rem;
+}
+
+.customer-info-form .table input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+}

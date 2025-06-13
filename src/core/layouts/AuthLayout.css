@@ -1,0 +1,54 @@
+/* 인증 레이아웃 스타일 */
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.auth-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 450px;
+}
+
+.auth-header {
+  background: #007bff;
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.auth-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.auth-header p {
+  margin: 10px 0 0 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.auth-content {
+  padding: 40px 30px;
+}
+
+.auth-footer {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #e0e0e0;
+  background: #f8f9fa;
+}
+
+.auth-footer p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+}

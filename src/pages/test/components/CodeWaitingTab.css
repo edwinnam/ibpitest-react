@@ -1,0 +1,57 @@
+/* 코드 발송대기 탭 스타일 */
+.code-waiting-tab {
+  min-height: 400px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #666;
+}
+
+.loading-container i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.send-section {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.send-section .alert {
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.send-section .alert h5 {
+  margin-bottom: 1rem;
+  color: #004085;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* 테이블 스타일 */
+.code-waiting-tab .table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  white-space: nowrap;
+}
+
+.code-waiting-tab .table td {
+  vertical-align: middle;
+}

@@ -1,0 +1,138 @@
+.test-question {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  margin-bottom: 30px;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.question-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.question-category {
+  font-size: 0.9rem;
+  color: #6c757d;
+  background: #f8f9fa;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.question-text {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.answer-options {
+  display: grid;
+  gap: 12px;
+}
+
+.answer-options-mobile {
+  display: none;
+}
+
+.answer-option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 24px;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.answer-option:hover {
+  background: #e9ecef;
+  border-color: #667eea;
+}
+
+.answer-option.selected {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.option-value {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  font-weight: 600;
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.answer-option.selected .option-value {
+  background: white;
+  color: #667eea;
+}
+
+.option-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .test-question {
+    padding: 30px 20px;
+  }
+  
+  .question-text {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+  }
+  
+  .answer-options {
+    display: none;
+  }
+  
+  .answer-options-mobile {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  
+  .answer-option-mobile {
+    flex: 1;
+    padding: 15px 10px;
+    background: #f8f9fa;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #667eea;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .answer-option-mobile:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+  }
+  
+  .answer-option-mobile.selected {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+  }
+}
