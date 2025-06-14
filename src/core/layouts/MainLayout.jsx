@@ -8,6 +8,10 @@ import useKeyboardNavigation, { KEYBOARD_SHORTCUTS } from '../../hooks/useKeyboa
 import SessionWarningModal from '../../components/SessionWarningModal'
 import KeyboardShortcutsModal from '../../components/KeyboardShortcutsModal'
 import SkipLink from '../../components/SkipLink'
+import ThemeToggle from '../../components/ThemeToggle'
+import LanguageSelector from '../../components/LanguageSelector'
+import NotificationBell from '../../components/NotificationBell'
+import { useTranslation } from 'react-i18next'
 import './MainLayout.css'
 
 const MainLayout = () => {
@@ -18,6 +22,7 @@ const MainLayout = () => {
   const { organization, getOrgName, getAvailableCodes } = useOrganization()
   const navigate = useNavigate()
   const location = useLocation()
+  const { t } = useTranslation()
 
   // 세션 설정 가져오기
   const { sessionSettings } = useSessionStore()
@@ -64,15 +69,15 @@ const MainLayout = () => {
   }
 
   const menuItems = [
-    { path: '/dashboard', icon: 'fas fa-home', label: '대시보드' },
-    { path: '/test-management', icon: 'fas fa-clipboard-check', label: '온라인 검사' },
-    { path: '/manual-scoring', icon: 'fas fa-edit', label: '채점하기' },
-    { path: '/test-results', icon: 'fas fa-chart-line', label: '결과보기' },
-    { path: '/diagram', icon: 'fas fa-sitemap', label: '조직도' },
-    { path: '/group-test', icon: 'fas fa-users', label: '단체검사' },
-    { path: '/mypage', icon: 'fas fa-user', label: '마이페이지' },
-    { path: '/notice', icon: 'fas fa-bullhorn', label: '공지사항' },
-    { path: '/user-guide', icon: 'fas fa-question-circle', label: '사용 가이드' },
+    { path: '/dashboard', icon: 'fas fa-home', label: t('navigation.dashboard') },
+    { path: '/test-management', icon: 'fas fa-clipboard-check', label: t('navigation.testManagement') },
+    { path: '/manual-scoring', icon: 'fas fa-edit', label: t('navigation.manualScoring') },
+    { path: '/test-results', icon: 'fas fa-chart-line', label: t('navigation.testResults') },
+    { path: '/diagram', icon: 'fas fa-sitemap', label: t('navigation.organizationChart') },
+    { path: '/group-test', icon: 'fas fa-users', label: t('navigation.groupTest') },
+    { path: '/mypage', icon: 'fas fa-user', label: t('navigation.myPage') },
+    { path: '/notice', icon: 'fas fa-bullhorn', label: t('navigation.notice') },
+    { path: '/user-guide', icon: 'fas fa-question-circle', label: t('navigation.userGuide') },
   ]
 
   const isActive = (path) => location.pathname === path
@@ -184,10 +189,10 @@ const MainLayout = () => {
           </div>
 
           <div className="nav-right">
-            <button className="icon-btn">
-              <i className="fas fa-bell"></i>
-              <span>알림</span>
-            </button>
+            <LanguageSelector />
+            <ThemeToggle />
+            
+            <NotificationBell />
             
             <button 
               className="icon-btn"

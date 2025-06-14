@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { auth } from '../../core/services/supabase'
+import { mfaService } from '../../core/services/mfaService'
 
 const AuthContext = createContext({})
 
@@ -51,7 +52,22 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data, error } = await auth.signIn(email, password)
       if (error) throw error
-      return { data, error: null }
+      
+      // Check if user has MFA enabled
+      const assuranceLevel = await mfaService.getAssuranceLevel()
+      const factors = await mfaService.listFactors()
+      
+      // If MFA is required but not completed
+      if (factors.length > 0 && assuranceLevel === 'aal1') {
+        return { 
+          data, 
+          error: null, 
+          requiresMFA: true,
+          factors 
+        }
+      }
+      
+      return { data, error: null, requiresMFA: false }
     } catch (error) {
       console.error('Login error:', error)
       return { data: null, error }

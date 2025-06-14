@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../core/services/supabase'
+import LazyImage from '../../components/LazyImage'
 import './CustomerLoginPage.css'
 
 const CustomerLoginPage = () => {
@@ -120,7 +121,14 @@ const CustomerLoginPage = () => {
       <div className="login-container">
         <div className="login-card">
           <div className="login-header">
-            <img src="/images/ibpi-logo.png" alt="IBPI" className="logo" />
+            <LazyImage 
+              src="/images/ibpi-logo.png" 
+              alt="IBPI" 
+              className="logo"
+              width={150}
+              height={60}
+              loading="eager"
+            />
             <h1>IBPI 심리검사</h1>
             <p>검사를 시작하려면 아래 정보를 입력해주세요</p>
           </div>

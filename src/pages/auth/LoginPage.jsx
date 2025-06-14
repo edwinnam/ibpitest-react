@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../modules/auth/AuthContext'
+import TwoFactorVerify from '../../components/TwoFactorVerify'
 import './LoginPage.css'
 
 const LoginPage = ({ type = 'partner' }) => {
@@ -9,6 +10,8 @@ const LoginPage = ({ type = 'partner' }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+  const [showMFA, setShowMFA] = useState(false)
+  const [mfaFactors, setMfaFactors] = useState([])
   
   const { signIn } = useAuth()
   const navigate = useNavigate()
@@ -31,12 +34,19 @@ const LoginPage = ({ type = 'partner' }) => {
     setLoading(true)
 
     try {
-      const { data, error } = await signIn(email, password)
+      const { data, error, requiresMFA, factors } = await signIn(email, password)
       
       if (error) {
         setError(error.message === 'Invalid login credentials' 
           ? '이메일 또는 비밀번호가 올바르지 않습니다.' 
           : error.message)
+        return
+      }
+
+      // Check if MFA is required
+      if (requiresMFA && factors?.length > 0) {
+        setMfaFactors(factors)
+        setShowMFA(true)
         return
       }
 
@@ -52,6 +62,32 @@ const LoginPage = ({ type = 'partner' }) => {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleMFASuccess = () => {
+    // MFA 검증 성공 시 대시보드로 이동
+    setTimeout(() => {
+      navigate(from, { replace: true })
+    }, 100)
+  }
+
+  const handleMFACancel = () => {
+    setShowMFA(false)
+    setMfaFactors([])
+    setPassword('')
+  }
+
+  // Show MFA verification screen if needed
+  if (showMFA) {
+    return (
+      <div className="login-page">
+        <TwoFactorVerify 
+          factors={mfaFactors}
+          onVerifySuccess={handleMFASuccess}
+          onCancel={handleMFACancel}
+        />
+      </div>
+    )
   }
 
   return (

@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useAuth } from '../../modules/auth/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import useSessionStore from '../../store/useSessionStore'
+import TwoFactorSetup from '../../components/TwoFactorSetup'
 import './MyPage.css'
 
 const MyPage = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('profile')
+  const [showTwoFactorSetup, setShowTwoFactorSetup] = useState(false)
   
   // 세션 설정
   const { sessionSettings, updateSessionSettings } = useSessionStore()
@@ -49,6 +51,13 @@ const MyPage = () => {
           >
             <i className="fas fa-clock"></i>
             세션 설정
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'security' ? 'active' : ''}`}
+            onClick={() => setActiveTab('security')}
+          >
+            <i className="fas fa-shield-alt"></i>
+            보안 설정
           </button>
         </div>
 
@@ -221,7 +230,56 @@ const MyPage = () => {
             </div>
           </div>
         )}
+
+        {/* 보안 설정 탭 */}
+        {activeTab === 'security' && (
+          <div className="security-section">
+            <h3>보안 설정</h3>
+            <div className="security-options">
+              <div className="security-item">
+                <div className="security-info">
+                  <h4>
+                    <i className="fas fa-mobile-alt"></i>
+                    2단계 인증 (2FA)
+                  </h4>
+                  <p>인증 앱을 사용하여 계정 보안을 강화합니다.</p>
+                </div>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => setShowTwoFactorSetup(true)}
+                >
+                  설정
+                </button>
+              </div>
+
+              <div className="security-item">
+                <div className="security-info">
+                  <h4>
+                    <i className="fas fa-history"></i>
+                    최근 로그인 기록
+                  </h4>
+                  <p>최근 30일간의 로그인 기록을 확인합니다.</p>
+                </div>
+                <button 
+                  className="btn btn-secondary"
+                  disabled
+                >
+                  곧 제공 예정
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* 2단계 인증 설정 모달 */}
+      <TwoFactorSetup 
+        isOpen={showTwoFactorSetup}
+        onClose={() => setShowTwoFactorSetup(false)}
+        onSuccess={() => {
+          setShowTwoFactorSetup(false)
+        }}
+      />
     </div>
   )
 }

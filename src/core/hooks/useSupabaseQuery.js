@@ -1,14 +1,63 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../services/supabase'
+import cacheService from '../services/cacheService'
 
-// 커스텀 훅: Supabase 쿼리
+// Enhanced cache times for different data types
+const CACHE_TIMES = {
+  organizations: { staleTime: 10 * 60 * 1000, cacheTime: 30 * 60 * 1000 },
+  customers: { staleTime: 5 * 60 * 1000, cacheTime: 15 * 60 * 1000 },
+  testCodes: { staleTime: 2 * 60 * 1000, cacheTime: 5 * 60 * 1000 },
+  testResults: { staleTime: 30 * 60 * 1000, cacheTime: 60 * 60 * 1000 },
+  reports: { staleTime: 60 * 60 * 1000, cacheTime: 2 * 60 * 60 * 1000 },
+  default: { staleTime: 5 * 60 * 1000, cacheTime: 10 * 60 * 1000 }
+};
+
+// Get cache configuration based on query key
+const getCacheTimes = (key) => {
+  if (Array.isArray(key)) {
+    const keyString = key[0]?.toString().toLowerCase() || '';
+    for (const [type, times] of Object.entries(CACHE_TIMES)) {
+      if (keyString.includes(type)) {
+        return times;
+      }
+    }
+  }
+  return CACHE_TIMES.default;
+};
+
+// 커스텀 훅: Supabase 쿼리 with enhanced caching
 export const useSupabaseQuery = (key, queryFn, options = {}) => {
+  const cacheTimes = getCacheTimes(key);
+  
   return useQuery({
     queryKey: key,
-    queryFn,
-    staleTime: 5 * 60 * 1000, // 5분
-    cacheTime: 10 * 60 * 1000, // 10분
+    queryFn: async () => {
+      // Try to get from custom cache first for persistent data
+      const cacheKey = Array.isArray(key) ? key.join(':') : key;
+      const cached = await cacheService.get(cacheKey);
+      
+      if (cached && !options.forceRefresh) {
+        return cached;
+      }
+      
+      // Fetch fresh data
+      const data = await queryFn();
+      
+      // Store in custom cache for persistence
+      if (data && options.persistent) {
+        await cacheService.set(cacheKey, data, {
+          namespace: Array.isArray(key) ? `api.${key[0]}` : 'api',
+          persistent: true
+        });
+      }
+      
+      return data;
+    },
+    staleTime: options.staleTime || cacheTimes.staleTime,
+    cacheTime: options.cacheTime || cacheTimes.cacheTime,
+    retry: options.retry ?? 3,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     ...options
   })
 }

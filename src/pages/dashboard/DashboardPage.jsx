@@ -5,6 +5,7 @@ import { useOrganization } from '../../modules/organization/OrganizationContext'
 import { useSupabaseQuery } from '../../core/hooks/useSupabaseQuery'
 import { supabase } from '../../core/services/supabase'
 import DebugInfo from '../../components/debug/DebugInfo'
+import AnalyticsDashboard from '../../components/dashboard/AnalyticsDashboard'
 import './DashboardPage.css'
 
 const DashboardPage = () => {
@@ -245,6 +246,13 @@ const DashboardPage = () => {
             <i className="fas fa-database"></i>
             <span>데이터 관리</span>
           </button>
+          <button 
+            onClick={() => navigate('/data-analysis')} 
+            className="quick-access-card"
+          >
+            <i className="fas fa-analytics"></i>
+            <span>데이터 분석</span>
+          </button>
         </div>
       </div>
 
@@ -281,6 +289,9 @@ const DashboardPage = () => {
           </button>
         </div>
       </div>
+
+      {/* 분석 대시보드 */}
+      <AnalyticsDashboard />
 
       {/* 개발 환경에서만 보이는 데모 링크 */}
       {import.meta.env.DEV && (

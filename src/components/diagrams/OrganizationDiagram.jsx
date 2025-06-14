@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import './OrganizationDiagram.css'
 
-const OrganizationDiagram = ({ scores, groupAverages, size = 743 }) => {
+const OrganizationDiagram = memo(({ scores, groupAverages, size = 743 }) => {
   const svgRef = useRef(null)
 
   // 척도별 색상 정의
@@ -182,6 +182,8 @@ const OrganizationDiagram = ({ scores, groupAverages, size = 743 }) => {
       )}
     </div>
   )
-}
+})
+
+OrganizationDiagram.displayName = 'OrganizationDiagram'
 
 export default OrganizationDiagram

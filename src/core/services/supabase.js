@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { applyRateLimiting } from './apiInterceptor'
 
 // Supabase 설정
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://ojwknqceiqzgutyhefwc.supabase.co'
@@ -12,6 +13,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true,
   },
 })
+
+// Apply rate limiting to all Supabase requests
+applyRateLimiting(supabase)
 
 // 인증 헬퍼 함수들
 export const auth = {

@@ -16,7 +16,15 @@
     "test:coverage": "vitest run --coverage",
     "test:report": "vitest run src/services/__tests__/reportDataService.test.js",
     "test:components": "vitest run src/components/reports/__tests__",
-    "test:integration": "vitest run src/test/integration"
+    "test:integration": "vitest run src/test/integration",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:install": "playwright install",
+    "test:report": "node scripts/test-report.js",
+    "test:all": "npm run test:run && npm run test:e2e && npm run test:report"
   },
   "dependencies": {
     "@rollup/rollup-win32-x64-msvc": "^4.43.0",

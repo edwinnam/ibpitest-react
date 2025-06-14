@@ -1,0 +1,183 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No",
+    "submit": "Submit",
+    "reset": "Reset",
+    "download": "Download",
+    "upload": "Upload",
+    "print": "Print",
+    "refresh": "Refresh"
+  },
+  
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "resetPassword": "Reset Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "changePassword": "Change Password",
+    "loginSuccess": "Successfully logged in",
+    "logoutSuccess": "Successfully logged out",
+    "invalidCredentials": "Invalid email or password",
+    "passwordMismatch": "Passwords do not match",
+    "sessionExpired": "Session expired. Please login again."
+  },
+  
+  "navigation": {
+    "dashboard": "Dashboard",
+    "testManagement": "Online Test",
+    "manualScoring": "Manual Scoring",
+    "testResults": "View Results",
+    "organizationChart": "Organization Chart",
+    "groupTest": "Group Test",
+    "myPage": "My Page",
+    "notice": "Notice",
+    "userGuide": "User Guide",
+    "customerTestPage": "Customer Test Page"
+  },
+  
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "totalTests": "Total Tests",
+    "completedTests": "Completed Tests",
+    "pendingTests": "Pending Tests",
+    "recentTests": "Recent Tests",
+    "statistics": "Statistics",
+    "monthlyTrend": "Monthly Trend",
+    "testTypeDistribution": "Test Type Distribution"
+  },
+  
+  "test": {
+    "title": "IBPI Interpersonal Psychology Test",
+    "adult": "Adult",
+    "youth": "Youth",
+    "child": "Child",
+    "testCode": "Test Code",
+    "testDate": "Test Date",
+    "testTime": "Test Time",
+    "customerName": "Customer Name",
+    "customerNumber": "Customer Number",
+    "age": "Age",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "phoneNumber": "Phone Number",
+    "startTest": "Start Test",
+    "continueTest": "Continue Test",
+    "completeTest": "Complete Test",
+    "testInProgress": "Test in Progress",
+    "testCompleted": "Test Completed",
+    "generateCode": "Generate Code",
+    "sendCode": "Send Code",
+    "codeGenerated": "Test code generated",
+    "codeSent": "Test code sent"
+  },
+  
+  "question": {
+    "question": "Question",
+    "of": "of",
+    "stronglyDisagree": "Strongly Disagree",
+    "disagree": "Disagree",
+    "neutral": "Neutral",
+    "agree": "Agree",
+    "stronglyAgree": "Strongly Agree"
+  },
+  
+  "report": {
+    "title": "IBPI Interpersonal Psychology Test Report",
+    "subtitle": "Interpersonal Behavior Pattern Inventory",
+    "customerInfo": "Customer Information",
+    "testInfo": "Test Information",
+    "scoreProfile": "Score Profile",
+    "interpretation": "Interpretation",
+    "recommendations": "Recommendations",
+    "downloadPDF": "Download PDF",
+    "viewReport": "View Report",
+    "scale": "Scale",
+    "rawScore": "Raw Score",
+    "tScore": "T-Score",
+    "percentile": "Percentile"
+  },
+  
+  "scales": {
+    "co": "Cooperation",
+    "cl": "Closeness",
+    "ex": "Expression",
+    "de": "Dependence",
+    "un": "Understanding",
+    "ob": "Obsession",
+    "gu": "Giving Up",
+    "at": "Attack",
+    "es": "Escape",
+    "nu": "Lack of Consideration"
+  },
+  
+  "organization": {
+    "name": "Organization Name",
+    "number": "Organization Number",
+    "representative": "Representative",
+    "contactPerson": "Contact Person",
+    "businessNumber": "Business Number",
+    "address": "Address",
+    "codesAvailable": "Available Codes",
+    "codesUsed": "Used Codes",
+    "registrationDate": "Registration Date"
+  },
+  
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email format",
+    "minLength": "Minimum {{min}} characters required",
+    "maxLength": "Maximum {{max}} characters allowed",
+    "networkError": "Network error occurred",
+    "serverError": "Server error occurred",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Access denied"
+  },
+  
+  "messages": {
+    "saveSuccess": "Saved successfully",
+    "deleteSuccess": "Deleted successfully",
+    "updateSuccess": "Updated successfully",
+    "confirmDelete": "Are you sure you want to delete?",
+    "confirmLogout": "Are you sure you want to logout?",
+    "noData": "No data available",
+    "searchNoResults": "No search results"
+  },
+  
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "security": "Security",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "systemDefault": "System Default",
+    "twoFactorAuth": "Two-Factor Authentication",
+    "enable2FA": "Enable 2FA",
+    "disable2FA": "Disable 2FA",
+    "sessionTimeout": "Session Timeout",
+    "autoLogout": "Auto Logout"
+  }
+}

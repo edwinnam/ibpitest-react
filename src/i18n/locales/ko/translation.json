@@ -1,0 +1,183 @@
+{
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "수정",
+    "search": "검색",
+    "close": "닫기",
+    "confirm": "확인",
+    "back": "뒤로가기",
+    "next": "다음",
+    "previous": "이전",
+    "yes": "예",
+    "no": "아니오",
+    "submit": "제출",
+    "reset": "초기화",
+    "download": "다운로드",
+    "upload": "업로드",
+    "print": "인쇄",
+    "refresh": "새로고침"
+  },
+  
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "email": "이메일",
+    "password": "비밀번호",
+    "rememberMe": "로그인 상태 유지",
+    "forgotPassword": "비밀번호 찾기",
+    "resetPassword": "비밀번호 재설정",
+    "newPassword": "새 비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "changePassword": "비밀번호 변경",
+    "loginSuccess": "로그인되었습니다",
+    "logoutSuccess": "로그아웃되었습니다",
+    "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다",
+    "passwordMismatch": "비밀번호가 일치하지 않습니다",
+    "sessionExpired": "세션이 만료되었습니다. 다시 로그인해주세요."
+  },
+  
+  "navigation": {
+    "dashboard": "대시보드",
+    "testManagement": "온라인 검사",
+    "manualScoring": "채점하기",
+    "testResults": "결과보기",
+    "organizationChart": "조직도",
+    "groupTest": "단체검사",
+    "myPage": "마이페이지",
+    "notice": "공지사항",
+    "userGuide": "사용 가이드",
+    "customerTestPage": "고객 검사 페이지"
+  },
+  
+  "dashboard": {
+    "title": "대시보드",
+    "welcome": "환영합니다",
+    "totalTests": "총 검사 수",
+    "completedTests": "완료된 검사",
+    "pendingTests": "대기 중인 검사",
+    "recentTests": "최근 검사",
+    "statistics": "통계",
+    "monthlyTrend": "월별 추이",
+    "testTypeDistribution": "검사 유형 분포"
+  },
+  
+  "test": {
+    "title": "IBPI 대인관계 심리검사",
+    "adult": "성인용",
+    "youth": "청소년용",
+    "child": "아동용",
+    "testCode": "검사 코드",
+    "testDate": "검사 일자",
+    "testTime": "검사 시간",
+    "customerName": "수검자명",
+    "customerNumber": "고객번호",
+    "age": "나이",
+    "gender": "성별",
+    "male": "남성",
+    "female": "여성",
+    "phoneNumber": "연락처",
+    "startTest": "검사 시작",
+    "continueTest": "검사 계속하기",
+    "completeTest": "검사 완료",
+    "testInProgress": "검사 진행 중",
+    "testCompleted": "검사가 완료되었습니다",
+    "generateCode": "코드 생성",
+    "sendCode": "코드 발송",
+    "codeGenerated": "검사 코드가 생성되었습니다",
+    "codeSent": "검사 코드가 발송되었습니다"
+  },
+  
+  "question": {
+    "question": "문항",
+    "of": "중",
+    "stronglyDisagree": "전혀 그렇지 않다",
+    "disagree": "그렇지 않다",
+    "neutral": "보통이다",
+    "agree": "그렇다",
+    "stronglyAgree": "매우 그렇다"
+  },
+  
+  "report": {
+    "title": "IBPI 대인관계 심리검사 결과보고서",
+    "subtitle": "Interpersonal Behavior Pattern Inventory",
+    "customerInfo": "수검자 정보",
+    "testInfo": "검사 정보",
+    "scoreProfile": "점수 프로파일",
+    "interpretation": "결과 해석",
+    "recommendations": "권장사항",
+    "downloadPDF": "PDF 다운로드",
+    "viewReport": "보고서 보기",
+    "scale": "척도",
+    "rawScore": "원점수",
+    "tScore": "T점수",
+    "percentile": "백분위"
+  },
+  
+  "scales": {
+    "co": "협동성",
+    "cl": "친밀성",
+    "ex": "표현성",
+    "de": "의존성",
+    "un": "이해성",
+    "ob": "집착",
+    "gu": "포기",
+    "at": "공격",
+    "es": "회피",
+    "nu": "배려부족"
+  },
+  
+  "organization": {
+    "name": "기관명",
+    "number": "기관번호",
+    "representative": "대표자",
+    "contactPerson": "담당자",
+    "businessNumber": "사업자번호",
+    "address": "주소",
+    "codesAvailable": "사용가능 코드",
+    "codesUsed": "사용된 코드",
+    "registrationDate": "등록일"
+  },
+  
+  "errors": {
+    "required": "필수 입력 항목입니다",
+    "invalidEmail": "올바른 이메일 형식이 아닙니다",
+    "minLength": "최소 {{min}}자 이상 입력해주세요",
+    "maxLength": "최대 {{max}}자까지 입력 가능합니다",
+    "networkError": "네트워크 오류가 발생했습니다",
+    "serverError": "서버 오류가 발생했습니다",
+    "notFound": "페이지를 찾을 수 없습니다",
+    "unauthorized": "권한이 없습니다",
+    "forbidden": "접근이 거부되었습니다"
+  },
+  
+  "messages": {
+    "saveSuccess": "저장되었습니다",
+    "deleteSuccess": "삭제되었습니다",
+    "updateSuccess": "수정되었습니다",
+    "confirmDelete": "정말로 삭제하시겠습니까?",
+    "confirmLogout": "로그아웃하시겠습니까?",
+    "noData": "데이터가 없습니다",
+    "searchNoResults": "검색 결과가 없습니다"
+  },
+  
+  "settings": {
+    "title": "설정",
+    "general": "일반",
+    "security": "보안",
+    "notifications": "알림",
+    "language": "언어",
+    "theme": "테마",
+    "lightMode": "라이트 모드",
+    "darkMode": "다크 모드",
+    "systemDefault": "시스템 기본값",
+    "twoFactorAuth": "2단계 인증",
+    "enable2FA": "2단계 인증 활성화",
+    "disable2FA": "2단계 인증 비활성화",
+    "sessionTimeout": "세션 타임아웃",
+    "autoLogout": "자동 로그아웃"
+  }
+}

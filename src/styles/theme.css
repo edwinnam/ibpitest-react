@@ -1,0 +1,166 @@
+/* CSS Variables for Theme Support */
+
+/* Light Theme (Default) */
+:root {
+  /* Primary Colors */
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --primary-light: #e3f2ff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --bg-card: #ffffff;
+  --bg-hover: #f5f5f5;
+  --bg-active: #e9ecef;
+  --bg-input: #ffffff;
+  --bg-code: #f5f5f5;
+
+  /* Text Colors */
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-tertiary: #adb5bd;
+  --text-inverse: #ffffff;
+  --text-link: #007bff;
+  --text-code: #d63384;
+
+  /* Border Colors */
+  --border-primary: #dee2e6;
+  --border-secondary: #e9ecef;
+  --border-focus: #80bdff;
+  --border-input: #ced4da;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  /* Component Specific */
+  --navbar-bg: #ffffff;
+  --navbar-border: #dee2e6;
+  --sidebar-bg: #f8f9fa;
+  --modal-backdrop: rgba(0, 0, 0, 0.5);
+  --table-stripe: #f8f9fa;
+  --table-hover: #e9ecef;
+  --scrollbar-bg: #f1f1f1;
+  --scrollbar-thumb: #888;
+
+  /* Charts */
+  --chart-grid: #e0e0e0;
+  --chart-text: #666666;
+
+  /* Transitions */
+  --transition-base: all 0.3s ease;
+  --transition-fast: all 0.15s ease;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Primary Colors */
+  --primary-color: #4dabf7;
+  --primary-hover: #339af0;
+  --primary-light: #1c3a52;
+  --secondary-color: #adb5bd;
+  --success-color: #51cf66;
+  --danger-color: #ff6b6b;
+  --warning-color: #ffd43b;
+  --info-color: #4dabf7;
+
+  /* Background Colors */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #242424;
+  --bg-tertiary: #2e2e2e;
+  --bg-card: #242424;
+  --bg-hover: #2e2e2e;
+  --bg-active: #383838;
+  --bg-input: #2e2e2e;
+  --bg-code: #2e2e2e;
+
+  /* Text Colors */
+  --text-primary: #f8f9fa;
+  --text-secondary: #adb5bd;
+  --text-tertiary: #6c757d;
+  --text-inverse: #212529;
+  --text-link: #4dabf7;
+  --text-code: #ff6b6b;
+
+  /* Border Colors */
+  --border-primary: #383838;
+  --border-secondary: #2e2e2e;
+  --border-focus: #4dabf7;
+  --border-input: #495057;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+
+  /* Component Specific */
+  --navbar-bg: #242424;
+  --navbar-border: #383838;
+  --sidebar-bg: #242424;
+  --modal-backdrop: rgba(0, 0, 0, 0.8);
+  --table-stripe: #242424;
+  --table-hover: #2e2e2e;
+  --scrollbar-bg: #2e2e2e;
+  --scrollbar-thumb: #6c757d;
+
+  /* Charts */
+  --chart-grid: #383838;
+  --chart-text: #adb5bd;
+}
+
+/* Theme-aware utilities */
+.theme-transition {
+  transition: var(--transition-base);
+}
+
+/* Scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbar-bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-secondary);
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Prevent transition on page load */
+.no-transition * {
+  transition: none !important;
+}
+
+/* Color scheme meta tag support */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Apply dark theme variables */
+  }
+}

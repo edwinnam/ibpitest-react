@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../core/services/supabase';
+import PasswordInput from '../../components/PasswordInput';
+import { validatePassword } from '../../utils/passwordPolicy';
 import './UpdatePasswordPage.css';
 
 const UpdatePasswordPage = () => {
@@ -9,6 +11,8 @@ const UpdatePasswordPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [passwordValidation, setPasswordValidation] = useState({ isValid: false, errors: [] });
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     // Check if user has a valid session
@@ -16,6 +20,8 @@ const UpdatePasswordPage = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         navigate('/auth/login');
+      } else {
+        setUserEmail(session.user.email);
       }
     };
     checkSession();
@@ -24,18 +30,20 @@ const UpdatePasswordPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validate password with new policy
+    const validation = validatePassword(password, userEmail);
+    if (!validation.isValid) {
+      setMessage({
+        type: 'error',
+        text: validation.errors[0], // Show first error
+      });
+      return;
+    }
+    
     if (password !== confirmPassword) {
       setMessage({
         type: 'error',
         text: '비밀번호가 일치하지 않습니다.',
-      });
-      return;
-    }
-
-    if (password.length < 6) {
-      setMessage({
-        type: 'error',
-        text: '비밀번호는 최소 6자 이상이어야 합니다.',
       });
       return;
     }
@@ -83,38 +91,43 @@ const UpdatePasswordPage = () => {
           )}
 
           <form onSubmit={handleSubmit} className="update-password-form">
-            <div className="form-group">
-              <label htmlFor="password">새 비밀번호</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="새 비밀번호를 입력하세요"
-                required
-                disabled={isLoading}
-                minLength={6}
-              />
-            </div>
+            <PasswordInput
+              value={password}
+              onChange={setPassword}
+              onValidation={setPasswordValidation}
+              email={userEmail}
+              placeholder="새 비밀번호를 입력하세요"
+              label="새 비밀번호"
+              id="password"
+              disabled={isLoading}
+              showPolicy={true}
+              showStrength={true}
+            />
 
             <div className="form-group">
-              <label htmlFor="confirmPassword">비밀번호 확인</label>
+              <label htmlFor="confirmPassword">
+                비밀번호 확인
+                <span className="required">*</span>
+              </label>
               <input
                 type="password"
                 id="confirmPassword"
+                className={`form-control ${password && confirmPassword && password !== confirmPassword ? 'invalid' : ''}`}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="비밀번호를 다시 입력하세요"
                 required
                 disabled={isLoading}
-                minLength={6}
               />
+              {password && confirmPassword && password !== confirmPassword && (
+                <p className="error-text">비밀번호가 일치하지 않습니다.</p>
+              )}
             </div>
 
             <button 
               type="submit" 
               className="submit-button"
-              disabled={isLoading}
+              disabled={isLoading || !passwordValidation.isValid || password !== confirmPassword}
             >
               {isLoading ? '변경 중...' : '비밀번호 변경'}
             </button>

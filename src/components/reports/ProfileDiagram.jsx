@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import './ProfileDiagram.css'
 
-const ProfileDiagram = ({ scores, size = 400, showLabels = true }) => {
+const ProfileDiagram = memo(({ scores, size = 400, showLabels = true }) => {
   const canvasRef = useRef(null)
   
   // 척도 순서 및 레이블
@@ -169,6 +169,8 @@ const ProfileDiagram = ({ scores, size = 400, showLabels = true }) => {
       </div>
     </div>
   )
-}
+})
+
+ProfileDiagram.displayName = 'ProfileDiagram'
 
 export default ProfileDiagram

@@ -1,0 +1,174 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  size-check:
+    name: Bundle Size Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build and analyze bundle
+      run: |
+        npm run build
+        npx bundle-analyzer dist/assets/*.js --max-size=500KB
+    
+    - name: Comment PR with bundle size
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          // Calculate bundle sizes
+          const distPath = './dist/assets';
+          const files = fs.readdirSync(distPath);
+          let totalSize = 0;
+          const sizes = {};
+          
+          files.forEach(file => {
+            if (file.endsWith('.js') || file.endsWith('.css')) {
+              const stats = fs.statSync(path.join(distPath, file));
+              const sizeInKB = (stats.size / 1024).toFixed(2);
+              sizes[file] = sizeInKB;
+              totalSize += stats.size;
+            }
+          });
+          
+          const totalSizeKB = (totalSize / 1024).toFixed(2);
+          
+          const comment = `
+            ## 📊 Bundle Size Report
+            
+            **Total Size:** ${totalSizeKB} KB
+            
+            ### File Breakdown:
+            ${Object.entries(sizes).map(([file, size]) => 
+              `- ${file}: ${size} KB`
+            ).join('\n')}
+          `;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run TypeScript check
+      run: npx tsc --noEmit --skipLibCheck
+      continue-on-error: true
+
+  accessibility-check:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+    
+    - name: Start server
+      run: |
+        npm run preview &
+        sleep 5
+    
+    - name: Run axe accessibility tests
+      run: |
+        npx @axe-core/cli http://localhost:4173 --exit
+
+  preview-deploy:
+    name: Deploy Preview
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+      env:
+        VITE_SUPABASE_URL: ${{ secrets.PREVIEW_SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY: ${{ secrets.PREVIEW_SUPABASE_ANON_KEY }}
+    
+    - name: Deploy to Vercel Preview
+      uses: amondnet/vercel-action@v25
+      id: vercel-deploy
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        github-comment: true
+    
+    - name: Comment PR with preview URL
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `🚀 Preview deployed to: ${{ steps.vercel-deploy.outputs.preview-url }}`
+          });
+
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

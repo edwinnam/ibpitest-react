@@ -3,6 +3,7 @@ import { reportDataService } from '../../services/reportDataService'
 import ProfileDiagram from './ProfileDiagram'
 import ScoreTable from './ScoreTable'
 import InterpretationSection from './InterpretationSection'
+import LazyImage from '../LazyImage'
 import './IBPIReport.css'
 
 const IBPIReport = ({ customerId, testId, onDataLoad }) => {
@@ -60,7 +61,13 @@ const IBPIReport = ({ customerId, testId, onDataLoad }) => {
       {/* 헤더 */}
       <div className="report-header">
         <div className="report-logo">
-          <img src="/images/ibpi-logo.png" alt="IBPI" />
+          <LazyImage 
+            src="/images/ibpi-logo.png" 
+            alt="IBPI"
+            width={200}
+            height={80}
+            loading="eager"
+          />
         </div>
         <h1 className="report-title">IBPI 대인관계 심리검사 결과보고서</h1>
         <div className="report-subtitle">

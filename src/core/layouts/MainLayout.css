@@ -12,7 +12,7 @@
   top: 0;
   width: 300px;
   height: 100vh;
-  background: #fff;
+  background: var(--sidebar-bg);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: left 0.3s ease;
   z-index: 1000;
@@ -26,20 +26,20 @@
 
 .sidebar-header {
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-primary);
   position: relative;
 }
 
 .sidebar-header h4 {
   margin: 0;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .sidebar-header .subtitle {
   margin: 5px 0 0 0;
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .sidebar-header .close-btn {
@@ -48,6 +48,7 @@
   top: 15px;
   background: none;
   border: none;
+  color: var(--text-secondary);
   font-size: 1.5rem;
   color: #666;
   cursor: pointer;
